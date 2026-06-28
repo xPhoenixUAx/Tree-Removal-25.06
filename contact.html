@@ -12,8 +12,15 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Roboto:wght@100;300;400;500;700;800&display=swap">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <link rel="stylesheet" href="css/styles.css">
+  <noscript><style>.page-loader{display:none}</style></noscript>
 </head>
 <body>
+<div class="page-loader is-active" data-page-loader aria-hidden="true">
+  <div class="loader-inner">
+    <div class="saw-blade" aria-hidden="true"><span></span><span></span><span></span></div>
+    <span class="loader-text">Loading</span>
+  </div>
+</div>
 
 <header class="site-header" data-header>
   <div class="container navrow">
@@ -54,7 +61,16 @@
 
 <main>
   <section class="page-hero" style="--hero:url('../assets/images/contact-consultation.webp')"><div class="container reveal"><span class="eyebrow">Contact</span><h1>Tell us what kind of <span class="accent-text">provider</span> you need.</h1><p>Share the tree location, access limits, storm damage, cleanup needs, and urgency so the request can be routed toward relevant independent local providers.</p></div></section>
-  <section class="section"><div class="container split"><form class="reveal" data-contact-form><div class="form-grid"><label>Name<input required name="name" autocomplete="name"></label><label>Email<input required type="email" name="email" autocomplete="email"></label><label>Phone<input required name="phone" autocomplete="tel"></label><label>Service<select name="service"><option>Tree Removal</option><option>Emergency Tree Removal</option><option>Tree Trimming & Pruning</option><option>Stump Grinding</option><option>Land & Lot Clearing</option><option>Storm Damage Cleanup</option><option>Tree Health Assessment</option><option>Brush Removal</option></select></label><label class="full">Message<textarea required name="message"></textarea></label></div><button class="btn" type="submit">Request Provider Help</button><p class="success-message" role="status" aria-live="polite"></p></form><div class="contact-info reveal"><span class="kicker">Connection details</span><h2>A free request service for homeowners seeking <span class="accent-text">local tree providers</span>.</h2><p>This site helps collect and route your request. Any provider you choose to hire is independent from this site, and you are responsible for verifying license, insurance, pricing, and scope before work begins.</p><div class="info-line"><i class="fa-solid fa-phone"></i><div><strong>Phone</strong><a data-config="phoneLabel" data-attr="href:tel" href="#"></a></div></div><div class="info-line"><i class="fa-solid fa-envelope"></i><div><strong>Email</strong><a data-config="email" data-attr="href:mailto" href="#"></a></div></div><div class="info-line"><i class="fa-solid fa-location-dot"></i><div><strong>Service area</strong><span data-service-area></span></div></div><div class="info-line"><i class="fa-solid fa-globe"></i><div><strong>Website</strong><a data-config="website" data-attr="href" href="#"></a></div></div></div></div></section>
+  <section class="section"><div class="container split"><form class="reveal" data-contact-form><div class="form-grid"><label>Name<input required name="name" autocomplete="name"></label><label>Email<input required type="email" name="email" autocomplete="email"></label><label>Phone<input required name="phone" autocomplete="tel"></label><label>Service<select name="service"><option>Tree Removal</option><option>Emergency Tree Removal</option><option>Tree Trimming & Pruning</option><option>Stump Grinding</option><option>Land & Lot Clearing</option><option>Storm Damage Cleanup</option><option>Tree Health Assessment</option><option>Brush Removal</option></select></label><label class="full">Message<textarea required name="message"></textarea></label></div><button class="btn" type="submit">Request Provider Help</button></form><div class="contact-info reveal"><span class="kicker">Connection details</span><h2>A free request service for homeowners seeking <span class="accent-text">local tree providers</span>.</h2><p>This site helps collect and route your request. Any provider you choose to hire is independent from this site, and you are responsible for verifying license, insurance, pricing, and scope before work begins.</p><div class="info-line"><i class="fa-solid fa-phone"></i><div><strong>Phone</strong><a data-config="phoneLabel" data-attr="href:tel" href="#"></a></div></div><div class="info-line"><i class="fa-solid fa-envelope"></i><div><strong>Email</strong><a data-config="email" data-attr="href:mailto" href="#"></a></div></div><div class="info-line"><i class="fa-solid fa-location-dot"></i><div><strong>Service area</strong><span data-service-area></span></div></div><div class="info-line"><i class="fa-solid fa-globe"></i><div><strong>Website</strong><a data-config="website" data-attr="href" href="#"></a></div></div></div></div></section>
+  <div class="confirmation-modal" data-confirmation-modal aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="confirmation-title">
+    <div class="confirmation-dialog">
+      <button class="modal-close" type="button" aria-label="Close confirmation" data-modal-close><i class="fa-solid fa-xmark"></i></button>
+      <div class="confirmation-icon" aria-hidden="true"><i class="fa-solid fa-check"></i></div>
+      <h2 id="confirmation-title">Request received</h2>
+      <p>Your request has been submitted. ArborLine Connect will review the details and route the inquiry toward relevant independent local providers.</p>
+      <button class="btn" type="button" data-modal-close>Close</button>
+    </div>
+  </div>
 </main>
 
 <footer class="footer">
