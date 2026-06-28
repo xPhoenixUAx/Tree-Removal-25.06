@@ -293,6 +293,9 @@ out("css/styles.css", `
 .brand{gap:14px;line-height:1;min-width:0;transition:.25s transform}.brand:hover{transform:translateY(-1px)}.brand-mark{position:relative;width:60px;height:48px;flex:0 0 60px;border-radius:20px 10px 20px 10px;background:linear-gradient(135deg,#111516 0%,#22302d 58%,#9cbb2d 100%);box-shadow:0 14px 30px rgba(17,21,22,.18),inset 0 1px 0 rgba(255,255,255,.22);overflow:hidden}.brand-mark:after{content:"";position:absolute;inset:5px;border:1px solid rgba(255,255,255,.18);border-radius:16px 8px 16px 8px;pointer-events:none}.brand-symbol{position:relative;z-index:1;width:54px;height:40px}.brand-route,.brand-trunk{fill:none;stroke:#fff;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}.brand-route{stroke:rgba(255,255,255,.84);stroke-width:3}.brand-trunk{stroke:#f7fff4}.brand-leaf{fill:#9cbb2d}.brand-leaf.right{fill:#cfe46c}.brand-node{fill:#fff;stroke:#9cbb2d;stroke-width:2}.brand-copy{display:grid;gap:4px;min-width:0}.brand-name{display:block;font:800 24px/1 Poppins,Arial,sans-serif;color:var(--deep);white-space:nowrap}.brand-tagline{display:block;font:700 11px/1.1 Poppins,Arial,sans-serif;text-transform:uppercase;letter-spacing:.12em;color:#6f7b76;white-space:nowrap}.footer-brand .brand-name{color:#fff}.footer-brand .brand-tagline{color:#99a59f}.footer-brand .brand-mark{box-shadow:0 16px 34px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.22)}
 .site-header{background:#0d1212;box-shadow:none}.site-header.is-scrolled{box-shadow:0 14px 34px rgba(0,0,0,.22)}.site-header .container{width:min(calc(100% - 190px),1700px)}.navrow{height:122px}.header-brand .brand-copy{display:none}.header-brand .brand-mark{width:62px;height:58px;flex-basis:62px;border:3px solid var(--green);border-radius:0;background:transparent;box-shadow:none}.header-brand .brand-mark:after{display:none}.header-brand .brand-symbol{width:56px;height:48px}.header-brand .brand-route,.header-brand .brand-trunk{stroke:var(--green)}.header-brand .brand-leaf,.header-brand .brand-leaf.right{fill:none;stroke:var(--green);stroke-width:3;stroke-linejoin:round}.header-brand .brand-node{fill:var(--green);stroke:var(--green)}.menu{position:relative;flex:1;justify-content:center;gap:48px}.menu>a{display:inline-flex;align-items:center;gap:9px;color:#fff;font-weight:500}.menu>a:not(.nav-phone):after{display:none}.menu>a i{font-size:10px;color:currentColor}.menu>a:hover,.menu>a.is-active{color:var(--green)}.menu>a.header-phone{position:absolute;right:0;background:transparent;border:0;border-radius:0;color:var(--green);padding:0;font:300 30px/1 Roboto,Arial,sans-serif;letter-spacing:.04em}.menu>a.header-phone:hover{background:transparent;border-color:transparent;color:#fff;transform:none}
 .hero h1,.page-hero h1,.section-title h2,.split h2,.cta-band h2{font-family:Roboto,Arial,sans-serif;font-weight:100;line-height:.88;letter-spacing:0}.hero h1,.page-hero h1{font-size:clamp(56px,7vw,112px)}.section-title h2,.split h2{font-size:clamp(42px,4.7vw,72px)}.cta-band h2{font-size:clamp(44px,5.5vw,82px)}.detail-content h2,.legal h2{font-family:Roboto,Arial,sans-serif;font-weight:100;line-height:.94}
+.hero-content{max-width:1120px;padding:96px 0 86px}.hero h1{max-width:1100px;line-height:.96;font-size:clamp(60px,6.6vw,118px);margin:22px 0 28px}.hero p{max-width:780px}
+.hero{background-image:linear-gradient(90deg,rgba(17,21,22,.78),rgba(17,21,22,.48) 48%,rgba(17,21,22,.24)),var(--hero)}
+.accent-text{color:var(--green)}
 @media (max-width:820px){.brand{gap:11px}.brand-mark{width:52px;height:42px;flex-basis:52px}.brand-symbol{width:48px;height:36px}.brand-name{font-size:21px}.brand-tagline{display:none}}
 @media (max-width:420px){.brand-mark{width:46px;height:38px;flex-basis:46px;border-radius:16px 8px}.brand-symbol{width:42px;height:32px}.brand-name{font-size:19px;max-width:170px;overflow:hidden;text-overflow:ellipsis}}
 @media (max-width:1180px){.service-grid{grid-template-columns:repeat(2,1fr)}.process-list{grid-template-columns:repeat(2,1fr)}.split{gap:40px}.footer-grid{grid-template-columns:1fr 1fr}}
@@ -310,7 +313,7 @@ out("index.html", page({
   <section class="hero" style="--hero:url('../assets/images/hero-tree-removal.webp')">
     <div class="container hero-content reveal">
       <span class="eyebrow">Tree provider connection service</span>
-      <h1>Find local help for urgent tree problems.</h1>
+      <h1>Find <span class="accent-text">local help</span> for urgent <span class="accent-text">tree problems</span>.</h1>
       <p>ArborLine is a free service that helps homeowners connect with independent local providers for removals, pruning, storm cleanup, stumps, brush, and property clearing.</p>
       <div class="hero-actions"><a class="btn" href="contact.html">Request Provider Help</a><a class="btn secondary" data-config="phoneLabel" data-attr="href:tel" href="#"></a></div>
     </div>
@@ -325,7 +328,7 @@ out("index.html", page({
     <div class="container split">
       <div class="reveal">
         <span class="kicker">When to start a request</span>
-        <h2>Tree problems are easier to route when the situation is described clearly.</h2>
+        <h2><span class="accent-text">Tree problems</span> are easier to route when the situation is described clearly.</h2>
         <p class="lead">Homeowners usually come to ArborLine when the issue feels urgent, confusing, or hard to explain to multiple companies one by one.</p>
         <ul class="check-list">
           <li>A tree is leaning toward a house, fence, driveway, or utility area</li>
@@ -345,7 +348,7 @@ out("index.html", page({
     <div class="container split">
       <div class="reveal">
         <span class="kicker">How the aggregator helps</span>
-        <h2>Describe the tree issue once and get routed toward local provider options.</h2>
+        <h2>Describe the tree issue once and get routed toward <span class="accent-text">local provider</span> options.</h2>
         <p class="lead">Tree problems are stressful when they involve storm damage, blocked access, leaning trunks, or cleanup decisions. Our site helps homeowners organize the request and seek contact from independent providers who may be able to help.</p>
         <a class="text-link" href="services.html">View provider categories <i class="fa-solid fa-arrow-right"></i></a>
       </div>
@@ -354,7 +357,7 @@ out("index.html", page({
   </section>
   <section class="section alt">
     <div class="container">
-      <div class="section-title reveal"><span class="kicker">Provider categories</span><h2>Start with the problem, then choose the right request group.</h2><p class="lead">The most common tree requests fall into a few practical groups. Each group links to the detailed provider categories when you need a narrower match.</p></div>
+      <div class="section-title reveal"><span class="kicker">Provider categories</span><h2>Start with the <span class="accent-text">problem</span>, then choose the right request group.</h2><p class="lead">The most common tree requests fall into a few practical groups. Each group links to the detailed provider categories when you need a narrower match.</p></div>
       <div class="service-grid service-group-grid">${serviceGroups.map(group => serviceGroupCard(group)).join("")}</div>
       <div class="section-title reveal service-all-link"><a class="text-link" href="services.html">View all provider categories <i class="fa-solid fa-arrow-right"></i></a></div>
     </div>
@@ -364,7 +367,7 @@ out("index.html", page({
       <div class="photo-frame tall reveal"><img src="assets/images/contact-consultation.webp" alt="Homeowner reviewing tree provider request details"></div>
       <div class="reveal">
         <span class="kicker">Before hiring</span>
-        <h2>Use the connection, then verify the contractor directly.</h2>
+        <h2>Use the connection, then <span class="accent-text">verify</span> the contractor directly.</h2>
         <p class="lead">ArborLine helps with the search and request flow. The final hiring decision belongs to the homeowner, so every provider conversation should include basic verification.</p>
         <ul class="check-list">
           <li>Ask for license and insurance information required for the work</li>
@@ -382,7 +385,7 @@ out("index.html", page({
     <div class="process-bg-layer process-bg-verify" aria-hidden="true"></div>
     <div class="process-bg-shade" aria-hidden="true"></div>
     <div class="container">
-      <div class="section-title reveal"><span class="kicker">How it works</span><h2>A simple path from tree problem to provider contact.</h2></div>
+      <div class="section-title reveal"><span class="kicker">How it works</span><h2>A simple path from tree problem to <span class="accent-text">provider contact</span>.</h2></div>
       <div class="process-list reveal">
         <div class="process-step" data-process-bg="describe"><span>01</span><h3>Describe</h3><p>Share the tree issue, location, access limits, photos, and urgency level.</p></div>
         <div class="process-step" data-process-bg="route"><span>02</span><h3>Route</h3><p>The request is organized around the service category and local coverage area.</p></div>
@@ -395,7 +398,7 @@ out("index.html", page({
     <div class="container faq-layout reveal">
       <div class="section-title left">
         <span class="kicker">Questions homeowners ask</span>
-        <h2>What to know before using this connection service.</h2>
+        <h2>What to know before using this <span class="accent-text">connection service</span>.</h2>
         <p class="lead">These answers set expectations clearly: ArborLine helps with routing, while independent providers handle estimates, scheduling, pricing, and the work itself.</p>
       </div>
       <div class="faq-grid">
@@ -427,7 +430,7 @@ out("index.html", page({
       </div>
     </div>
   </section>
-  <section class="cta-band reveal"><div class="container"><h2>Need help finding a tree provider?</h2><p>Connection requests are available for <span data-service-area></span>.</p><a class="btn" href="contact.html">Start Request</a></div></section>
+  <section class="cta-band reveal"><div class="container"><h2>Need help finding a <span class="accent-text">tree provider</span>?</h2><p>Connection requests are available for <span data-service-area></span>.</p><a class="btn" href="contact.html">Start Request</a></div></section>
 </main>`
 }));
 
@@ -436,7 +439,7 @@ out("services.html", page({
   description: "Explore local provider categories for tree removal, pruning, stump grinding, storm cleanup, lot clearing, and brush removal requests.",
   body: `
 <main>
-  <section class="page-hero" style="--hero:url('../assets/images/process-worksite.webp')"><div class="container reveal"><span class="eyebrow">Provider categories</span><h1>Find the right local tree service category.</h1><p>Use these pages to identify the type of help you may need, then submit a request to connect with independent local providers.</p></div></section>
+  <section class="page-hero" style="--hero:url('../assets/images/process-worksite.webp')"><div class="container reveal"><span class="eyebrow">Provider categories</span><h1>Find the right <span class="accent-text">local tree</span> service category.</h1><p>Use these pages to identify the type of help you may need, then submit a request to connect with independent local providers.</p></div></section>
   <section class="section"><div class="container"><div class="service-grid">${services.map(s => serviceCard(s)).join("")}</div></div></section>
 </main>`
 }));
@@ -446,8 +449,8 @@ out("about.html", page({
   description: "Learn how ArborLine Connect helps homeowners connect with independent local tree service providers.",
   body: `
 <main>
-  <section class="page-hero" style="--hero:url('../assets/images/about-team.webp')"><div class="container reveal"><span class="eyebrow">About</span><h1>A connection service for homeowners facing tree problems.</h1><p>ArborLine Connect is not a contractor and does not perform tree work. We help homeowners find independent local providers who may be able to respond quickly and safely.</p></div></section>
-  <section class="section"><div class="container split"><div class="photo-frame tall reveal"><img src="assets/images/about-team.webp" alt="Tree service providers shown as illustrative models"><div class="badge">Free request help. Independent providers. Homeowner verification.</div></div><div class="reveal"><span class="kicker">Our story</span><h2>Built to make urgent tree requests easier to route.</h2><p class="lead">ArborLine was created for homeowners who do not know where to start when a tree is leaning, storm debris blocks access, a stump delays a yard project, or brush cleanup becomes too much to manage alone.</p><p>Instead of presenting ourselves as the crew doing the work, we operate as an aggregator. Our site collects the basic details of a tree-related request and helps connect homeowners with local independent service providers. The provider, not this site, is responsible for estimates, licenses, insurance, scheduling, safety practices, and completed work.</p><ul class="check-list"><li>Free connection support for homeowners</li><li>Tree removal, pruning, stump, storm, brush, and clearing categories</li><li>Clear reminder to verify license and insurance before hiring</li><li>No warranty or guarantee for work performed by independent providers</li></ul></div></div></section>
+  <section class="page-hero" style="--hero:url('../assets/images/about-team.webp')"><div class="container reveal"><span class="eyebrow">About</span><h1>A connection service for homeowners facing <span class="accent-text">tree problems</span>.</h1><p>ArborLine Connect is not a contractor and does not perform tree work. We help homeowners find independent local providers who may be able to respond quickly and safely.</p></div></section>
+  <section class="section"><div class="container split"><div class="photo-frame tall reveal"><img src="assets/images/about-team.webp" alt="Tree service providers shown as illustrative models"><div class="badge">Free request help. Independent providers. Homeowner verification.</div></div><div class="reveal"><span class="kicker">Our story</span><h2>Built to make urgent tree requests easier to <span class="accent-text">route</span>.</h2><p class="lead">ArborLine was created for homeowners who do not know where to start when a tree is leaning, storm debris blocks access, a stump delays a yard project, or brush cleanup becomes too much to manage alone.</p><p>Instead of presenting ourselves as the crew doing the work, we operate as an aggregator. Our site collects the basic details of a tree-related request and helps connect homeowners with local independent service providers. The provider, not this site, is responsible for estimates, licenses, insurance, scheduling, safety practices, and completed work.</p><ul class="check-list"><li>Free connection support for homeowners</li><li>Tree removal, pruning, stump, storm, brush, and clearing categories</li><li>Clear reminder to verify license and insurance before hiring</li><li>No warranty or guarantee for work performed by independent providers</li></ul></div></div></section>
 </main>`
 }));
 
@@ -456,8 +459,8 @@ out("contact.html", page({
   description: "Submit a free request to connect with independent local providers for tree removal, pruning, stump grinding, storm cleanup, and brush removal.",
   body: `
 <main>
-  <section class="page-hero" style="--hero:url('../assets/images/contact-consultation.webp')"><div class="container reveal"><span class="eyebrow">Contact</span><h1>Tell us what kind of provider you need.</h1><p>Share the tree location, access limits, storm damage, cleanup needs, and urgency so the request can be routed toward relevant independent local providers.</p></div></section>
-  <section class="section"><div class="container split"><form class="reveal" data-contact-form><div class="form-grid"><label>Name<input required name="name" autocomplete="name"></label><label>Email<input required type="email" name="email" autocomplete="email"></label><label>Phone<input required name="phone" autocomplete="tel"></label><label>Service<select name="service">${services.map(s => `<option>${s.title}</option>`).join("")}</select></label><label class="full">Message<textarea required name="message"></textarea></label></div><button class="btn" type="submit">Request Provider Help</button><p class="success-message" role="status" aria-live="polite"></p></form><div class="contact-info reveal"><span class="kicker">Connection details</span><h2>A free request service for homeowners seeking local tree providers.</h2><p>This site helps collect and route your request. Any provider you choose to hire is independent from this site, and you are responsible for verifying license, insurance, pricing, and scope before work begins.</p><div class="info-line"><i class="fa-solid fa-phone"></i><div><strong>Phone</strong><a data-config="phoneLabel" data-attr="href:tel" href="#"></a></div></div><div class="info-line"><i class="fa-solid fa-envelope"></i><div><strong>Email</strong><a data-config="email" data-attr="href:mailto" href="#"></a></div></div><div class="info-line"><i class="fa-solid fa-location-dot"></i><div><strong>Service area</strong><span data-service-area></span></div></div><div class="info-line"><i class="fa-solid fa-globe"></i><div><strong>Website</strong><a data-config="website" data-attr="href" href="#"></a></div></div></div></div></section>
+  <section class="page-hero" style="--hero:url('../assets/images/contact-consultation.webp')"><div class="container reveal"><span class="eyebrow">Contact</span><h1>Tell us what kind of <span class="accent-text">provider</span> you need.</h1><p>Share the tree location, access limits, storm damage, cleanup needs, and urgency so the request can be routed toward relevant independent local providers.</p></div></section>
+  <section class="section"><div class="container split"><form class="reveal" data-contact-form><div class="form-grid"><label>Name<input required name="name" autocomplete="name"></label><label>Email<input required type="email" name="email" autocomplete="email"></label><label>Phone<input required name="phone" autocomplete="tel"></label><label>Service<select name="service">${services.map(s => `<option>${s.title}</option>`).join("")}</select></label><label class="full">Message<textarea required name="message"></textarea></label></div><button class="btn" type="submit">Request Provider Help</button><p class="success-message" role="status" aria-live="polite"></p></form><div class="contact-info reveal"><span class="kicker">Connection details</span><h2>A free request service for homeowners seeking <span class="accent-text">local tree providers</span>.</h2><p>This site helps collect and route your request. Any provider you choose to hire is independent from this site, and you are responsible for verifying license, insurance, pricing, and scope before work begins.</p><div class="info-line"><i class="fa-solid fa-phone"></i><div><strong>Phone</strong><a data-config="phoneLabel" data-attr="href:tel" href="#"></a></div></div><div class="info-line"><i class="fa-solid fa-envelope"></i><div><strong>Email</strong><a data-config="email" data-attr="href:mailto" href="#"></a></div></div><div class="info-line"><i class="fa-solid fa-location-dot"></i><div><strong>Service area</strong><span data-service-area></span></div></div><div class="info-line"><i class="fa-solid fa-globe"></i><div><strong>Website</strong><a data-config="website" data-attr="href" href="#"></a></div></div></div></div></section>
 </main>`
 }));
 
