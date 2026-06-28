@@ -1,5 +1,5 @@
 window.siteConfig = {
-  companyName: "ArborLine Tree Services",
+  companyName: "ArborLine Connect",
   phone: "+1-720-555-0186",
   phoneLabel: "(720) 555-0186",
   email: "hello@arborlinetreeservices.com",
@@ -9,5 +9,5 @@ window.siteConfig = {
   serviceArea: "Denver, Aurora, Lakewood, Arvada, Westminster, and nearby Colorado communities",
   businessHours: "Mon-Sat 7:00 AM - 7:00 PM",
   footerText: "A free homeowner connection service for tree removal, pruning, storm cleanup, stump grinding, and property clearing requests.",
-  copyright: "Copyright 2026 ArborLine Tree Services. All rights reserved."
+  copyright: "Copyright 2026 ArborLine Connect. All rights reserved."
 };

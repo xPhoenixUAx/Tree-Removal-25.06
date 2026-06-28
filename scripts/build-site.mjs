@@ -82,25 +82,35 @@ const services = [
   }
 ];
 
+const brandLogo = (depth = "", extraClass = "") => `
+<a class="brand${extraClass ? ` ${extraClass}` : ""}" href="${depth}index.html" aria-label="ArborLine Connect home">
+  <span class="brand-mark" aria-hidden="true">
+    <svg class="brand-symbol" viewBox="0 0 76 56" focusable="false">
+      <path class="brand-route" d="M10 42c10-11 20-7 30-17 9-9 17-11 26-7" />
+      <path class="brand-trunk" d="M35 45c0-11 4-19 13-26" />
+      <path class="brand-leaf left" d="M28 22c-7 0-13 5-15 12 8 2 16-1 20-8 1-2-1-4-5-4Z" />
+      <path class="brand-leaf right" d="M49 12c9-1 17 5 19 14-10 2-19-2-23-10-1-2 1-4 4-4Z" />
+      <circle class="brand-node node-a" cx="13" cy="42" r="3.5" />
+      <circle class="brand-node node-b" cx="66" cy="18" r="3.5" />
+    </svg>
+  </span>
+  <span class="brand-copy">
+    <span class="brand-name" data-config="companyName"></span>
+    <span class="brand-tagline">Local tree provider network</span>
+  </span>
+</a>`;
+
 const nav = (depth = "") => `
 <header class="site-header" data-header>
-  <div class="topline">
-    <div class="container topbar">
-      <span>Free homeowner connection service for local tree providers</span>
-      <a data-config="email" data-attr="href:mailto" href="#"></a>
-    </div>
-  </div>
   <div class="container navrow">
-    <a class="brand" href="${depth}index.html" aria-label="Home">
-      <span class="brand-mark">A</span><span data-config="companyName"></span>
-    </a>
+${brandLogo(depth, "header-brand")}
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu" data-menu-toggle><span></span><span></span><span></span></button>
     <nav id="site-menu" class="menu" data-menu>
-      <a href="${depth}index.html">Home</a>
-      <a href="${depth}services.html">Services</a>
-      <a href="${depth}about.html">About</a>
-      <a href="${depth}contact.html">Contact</a>
-      <a class="nav-phone" data-config="phoneLabel" data-attr="href:tel" href="#"></a>
+      <a class="is-active" href="${depth}index.html">Home <i class="fa-solid fa-chevron-right"></i></a>
+      <a href="${depth}services.html">Services <i class="fa-solid fa-chevron-right"></i></a>
+      <a href="${depth}about.html">About <i class="fa-solid fa-chevron-right"></i></a>
+      <a href="${depth}contact.html">Contact <i class="fa-solid fa-chevron-right"></i></a>
+      <a class="nav-phone header-phone" data-config="phoneLabel" data-attr="href:tel" href="#"></a>
     </nav>
   </div>
 </header>`;
@@ -109,7 +119,7 @@ const footer = (depth = "") => `
 <footer class="footer">
   <div class="container footer-grid">
     <div>
-      <a class="brand footer-brand" href="${depth}index.html"><span class="brand-mark">A</span><span data-config="companyName"></span></a>
+${brandLogo(depth, "footer-brand")}
       <p data-config="footerText"></p>
       <p class="company-line"><span data-config="companyName"></span> - <span data-config="address"></span> - ID <span data-config="companyId"></span></p>
     </div>
@@ -150,7 +160,7 @@ const page = ({ title, description, body, depth = "" }) => `<!doctype html>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdnjs.cloudflare.com">
   <link rel="icon" href="${depth}assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Roboto:wght@300;400;500;700;800&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Roboto:wght@100;300;400;500;700;800&display=swap">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <link rel="stylesheet" href="${depth}css/styles.css">
 </head>
@@ -212,7 +222,7 @@ const serviceGroupCard = (group) => `
 
 out("js/site-config.js", `
 window.siteConfig = {
-  companyName: "ArborLine Tree Services",
+  companyName: "ArborLine Connect",
   phone: "+1-720-555-0186",
   phoneLabel: "(720) 555-0186",
   email: "hello@arborlinetreeservices.com",
@@ -222,7 +232,7 @@ window.siteConfig = {
   serviceArea: "Denver, Aurora, Lakewood, Arvada, Westminster, and nearby Colorado communities",
   businessHours: "Mon-Sat 7:00 AM - 7:00 PM",
   footerText: "A free homeowner connection service for tree removal, pruning, storm cleanup, stump grinding, and property clearing requests.",
-  copyright: "Copyright 2026 ArborLine Tree Services. All rights reserved."
+  copyright: "Copyright 2026 ArborLine Connect. All rights reserved."
 };
 `);
 
@@ -280,14 +290,20 @@ out("css/styles.css", `
 :root{--green:#9cbb2d;--deep:#111516;--ink:#243033;--muted:#687273;--pale:#eff6f2;--cream:#fbfbf4;--line:#dfe8df;--container:1440px;--shadow:0 18px 55px rgba(17,21,22,.14)}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Roboto,Arial,sans-serif;color:var(--ink);background:#fff;line-height:1.65;min-width:320px}img{max-width:100%;display:block}a{color:inherit;text-decoration:none}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--green);outline-offset:4px}.container{width:min(calc(100% - 40px),var(--container));margin-inline:auto}.topline{background:var(--deep);color:#dce7dc;font-size:14px}.topbar{display:flex;justify-content:space-between;gap:16px;padding:8px 0}.site-header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.96);transition:.3s box-shadow,.3s transform}.site-header.is-scrolled{box-shadow:0 10px 35px rgba(0,0,0,.09)}.navrow{height:86px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:inline-flex;align-items:center;gap:12px;font-family:Poppins,Arial,sans-serif;font-weight:800;font-size:24px;color:var(--deep)}.brand-mark{display:grid;place-items:center;width:42px;height:42px;background:var(--green);color:#fff;border-radius:50%;box-shadow:0 8px 20px rgba(156,187,45,.35)}.menu{display:flex;align-items:center;gap:28px;font-family:Poppins,Arial,sans-serif;font-weight:600}.menu a{position:relative}.menu>a:not(.nav-phone):after{content:"";position:absolute;left:0;bottom:-9px;width:0;height:2px;background:var(--green);transition:.25s}.menu>a:hover:after{width:100%}.nav-phone,.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;background:var(--green);color:#fff;padding:14px 24px;border-radius:999px;font-weight:800;border:1px solid var(--green);transition:.25s}.nav-phone:hover,.btn:hover{background:var(--deep);border-color:var(--deep);transform:translateY(-2px)}.btn.secondary{background:transparent;color:#fff;border-color:#fff}.btn.secondary:hover{background:#fff;color:var(--deep)}.menu-toggle{display:none;background:none;border:0;width:44px;height:44px}.menu-toggle span{display:block;height:2px;background:var(--deep);margin:7px 6px}.hero{min-height:760px;display:grid;align-items:center;position:relative;background-color:var(--deep);background-image:linear-gradient(90deg,rgba(17,21,22,.66),rgba(17,21,22,.28),rgba(17,21,22,.04)),var(--hero);background-position:center;background-size:cover;background-attachment:fixed;color:#fff;overflow:hidden}.hero:after,.page-hero:after{content:"";position:absolute;inset:auto 0 0;height:110px;background:linear-gradient(transparent,rgba(17,21,22,.48))}.hero-content{position:relative;z-index:1;max-width:820px;padding:70px 0}.eyebrow,.kicker{display:inline-block;color:var(--green);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:13px}.hero h1,.page-hero h1{font:800 clamp(42px,7vw,86px)/.95 Poppins,Arial,sans-serif;margin:18px 0 24px;letter-spacing:0}.hero p,.page-hero p{font-size:20px;max-width:720px}.hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}.section{padding:110px 0}.section.alt{background:var(--pale)}.section.dark{background:var(--deep);color:#fff}.split{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}.section-title{max-width:760px;margin:0 auto 52px;text-align:center}.section-title.left{text-align:left;margin-left:0}.section-title h2,.split h2{font:800 clamp(34px,4vw,56px)/1.05 Poppins,Arial,sans-serif;color:var(--deep);margin:12px 0}.dark .section-title h2,.dark h2{color:#fff}.lead{font-size:19px;color:var(--muted)}.dark .lead{color:#cdd6d0}.stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);background:#fff;margin-top:-82px;position:relative;z-index:5;box-shadow:var(--shadow)}.stat{padding:34px;text-align:center;border-right:1px solid var(--line)}.stat:last-child{border-right:0}.stat strong{display:block;color:var(--green);font:300 48px/1 Roboto,Arial}.service-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}.service-group-grid{grid-template-columns:repeat(3,1fr)}.service-card{background:#fff;box-shadow:0 10px 35px rgba(17,21,22,.08);overflow:hidden;transition:.3s transform,.3s box-shadow}.service-card:hover{transform:translateY(-8px);box-shadow:var(--shadow)}.service-group-card{position:relative;min-height:520px;display:flex;align-items:flex-end;background-color:var(--deep);background-image:linear-gradient(180deg,rgba(17,21,22,.05) 0%,rgba(17,21,22,.36) 42%,rgba(17,21,22,.9) 100%),var(--card-image);background-position:center;background-size:cover;color:#fff}.service-group-card:before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,rgba(17,21,22,.14),transparent 46%);pointer-events:none}.service-group-card:hover{background-size:cover}.service-group-card .service-card-body{position:relative;z-index:1;width:100%;padding:32px}.service-group-card .kicker{color:var(--green)}.service-group-card .service-card-body h3{color:#fff}.service-group-card p{color:#e7eee8}.image-link{display:block;overflow:hidden;aspect-ratio:4/3}.image-link img{width:100%;height:100%;object-fit:cover;transition:.5s transform}.service-card:hover img{transform:scale(1.08)}.service-card-body{padding:28px}.service-card h3{font:800 24px/1.2 Poppins,Arial;margin:8px 0 12px;color:var(--deep)}.group-links{display:grid;gap:12px;margin-top:22px}.group-links .text-link{justify-content:space-between;border-top:1px solid rgba(255,255,255,.26);padding-top:12px;color:#fff}.service-all-link{margin-top:34px;margin-bottom:0}.text-link{display:inline-flex;align-items:center;gap:10px;font-weight:800;color:var(--deep)}.text-link i{background:var(--green);color:#fff;border-radius:50%;font-size:11px;width:22px;height:22px;display:grid;place-items:center;transition:.25s;flex:0 0 auto}.text-link:hover i{transform:translateX(7px);background:var(--deep)}.service-group-card .text-link:hover i{background:#fff;color:var(--deep)}.photo-frame{position:relative;overflow:hidden;box-shadow:var(--shadow)}.photo-frame img{width:100%;height:100%;object-fit:cover}.photo-frame.tall{aspect-ratio:5/6}.badge{position:absolute;left:26px;bottom:26px;background:var(--green);color:#fff;padding:22px;max-width:260px;font-weight:800}.process-section{position:relative;isolation:isolate;overflow:hidden;background-color:var(--deep)}.process-bg-layer,.process-bg-shade{position:absolute;inset:0;pointer-events:none}.process-bg-layer{z-index:-2;background-position:center;background-size:cover;opacity:0;transform:scale(1.03);transition:.65s opacity ease,.85s transform ease}.process-bg-shade{z-index:-1;background:linear-gradient(180deg,rgba(17,21,22,.76),rgba(17,21,22,.9));opacity:0;transition:.5s opacity ease}.process-bg-describe{background-image:url('../assets/images/process-describe-hover.png')}.process-bg-route{background-image:url('../assets/images/process-route-hover.png')}.process-bg-connect{background-image:url('../assets/images/process-connect-hover.png')}.process-bg-verify{background-image:url('../assets/images/process-verify-hover.png')}.process-section[data-process-bg] .process-bg-shade{opacity:1}.process-section[data-process-bg="describe"] .process-bg-describe,.process-section[data-process-bg="route"] .process-bg-route,.process-section[data-process-bg="connect"] .process-bg-connect,.process-section[data-process-bg="verify"] .process-bg-verify{opacity:1;transform:scale(1)}.process-list{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#394144}.process-step{position:relative;background:var(--deep);border:1px solid transparent;padding:42px 28px;min-height:230px;transition:.25s background-color,.25s border-color,.25s box-shadow,.25s transform,.25s backdrop-filter}.process-section[data-process-bg] .process-step{background:rgba(17,21,22,.88);backdrop-filter:blur(1px)}.process-step:hover,.process-step:focus-within{background:rgba(29,37,40,.76);border-color:rgba(156,187,45,.55);box-shadow:0 18px 46px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.08);transform:translateY(-6px);z-index:2}.process-step:hover span,.process-step:focus-within span{color:#fff}.process-step span{display:block;color:var(--green);font:300 42px/1 Roboto,Arial;margin-bottom:22px;transition:.25s color}.cta-band{background:linear-gradient(rgba(17,21,22,.74),rgba(17,21,22,.74)),url('../assets/images/process-worksite.webp') center/cover fixed;color:#fff;text-align:center;padding:120px 0}.cta-band h2{font:800 clamp(36px,5vw,64px)/1.05 Poppins,Arial;margin:0 auto 18px;max-width:900px}.page-hero{position:relative;min-height:440px;display:grid;align-items:end;color:#fff;background-color:var(--deep);background-image:linear-gradient(90deg,rgba(17,21,22,.68),rgba(17,21,22,.2)),var(--hero);background-position:center;background-size:cover}.page-hero .container{position:relative;z-index:1;padding:110px 0 70px}.detail-grid{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:60px}.detail-content h2,.detail-content h3{font-family:Poppins,Arial,sans-serif;color:var(--deep);line-height:1.15}.check-list{list-style:none;padding:0;margin:24px 0;display:grid;gap:12px}.check-list li{padding-left:34px;position:relative}.check-list li:before{content:"\\f00c";font-family:"Font Awesome 6 Free";font-weight:900;position:absolute;left:0;top:1px;color:var(--green)}.faq-layout>.section-title{max-width:860px}.faq-grid{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:34px;align-items:start}.faq-list{display:grid;gap:16px}.faq-item{background:#fff;border:1px solid rgba(156,187,45,.22);border-left:6px solid var(--green);padding:28px 30px;box-shadow:0 16px 38px rgba(17,21,22,.08);transition:.25s transform,.25s box-shadow}.faq-item:hover{transform:translateY(-4px);box-shadow:0 22px 52px rgba(17,21,22,.12)}.faq-item h3,.faq-note h3{font:800 24px/1.2 Poppins,Arial;margin:0 0 10px;color:var(--deep)}.faq-item p{margin:0;color:var(--muted)}.faq-note{background:var(--deep);color:#fff;padding:34px;position:sticky;top:120px;box-shadow:var(--shadow)}.faq-note h3{color:#fff}.faq-note .check-list{margin:24px 0 28px}.faq-note .check-list li{color:#dce7dc}.faq-note .check-list li:before{color:var(--green)}.faq-note .text-link{color:#fff;margin-top:8px}.sidebar-card{background:var(--pale);padding:32px;position:sticky;top:120px}.sidebar-card h3{font:800 26px/1.2 Poppins,Arial;margin-top:0}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.form-grid .full{grid-column:1/-1}label{font-weight:800;color:var(--deep)}input,textarea,select{width:100%;border:1px solid var(--line);padding:14px 15px;font:inherit;margin-top:6px;background:#fff}textarea{min-height:150px;resize:vertical}.success-message{margin-top:18px;font-weight:800;color:var(--green)}.contact-info{display:grid;gap:18px}.info-line{display:flex;gap:16px;align-items:flex-start}.info-line i{color:var(--green);font-size:22px;margin-top:6px}.legal{max-width:920px}.legal h2{font-family:Poppins,Arial,sans-serif;margin-top:42px;color:var(--deep)}.footer{background:#101516;color:#c7d0cb;padding:78px 0 28px}.footer-grid{display:grid;grid-template-columns:2fr 1fr 1.2fr 1fr;gap:42px}.footer h3{font-family:Poppins,Arial;color:#fff}.footer a,.footer span{display:block;margin:9px 0}.footer .brand{display:inline-flex}.footer-brand{color:#fff}.company-line{font-size:14px;color:#99a59f}.company-line span{display:inline;margin:0}.footer-disclaimer{border-top:1px solid #2b3335;margin-top:42px;padding-top:22px;font-size:12px;line-height:1.55;color:#98a39f}.footer-disclaimer strong{color:#fff}.copyright{border-top:1px solid #2b3335;margin-top:22px;padding-top:24px;font-size:14px}.reveal{opacity:1;transform:none;transition:opacity .7s ease,transform .7s ease}.reveal.is-visible{opacity:1;transform:none}
 .service-card{border:1px solid transparent;transition:.3s transform,.3s box-shadow,.3s border-color}.service-card:hover{border-color:rgba(156,187,45,.34)}.service-group-card{border-color:rgba(255,255,255,.14);transition:.35s transform,.35s box-shadow,.35s border-color,.55s background-position}.service-group-card:before{opacity:.72;transition:.35s opacity,.35s background}.service-group-card:hover{transform:translateY(-8px);background-position:center 46%;border-color:rgba(156,187,45,.72);box-shadow:0 28px 72px rgba(0,0,0,.22)}.service-group-card:hover:before{opacity:1;background:linear-gradient(120deg,rgba(156,187,45,.2),rgba(17,21,22,.16) 42%,transparent 72%)}.service-group-card .service-card-body{transition:.3s transform}.service-group-card:hover .service-card-body{transform:translateY(-6px)}.service-group-card:hover .text-link i{background:#fff;color:var(--deep);transform:translateX(4px)}.service-group-card .text-link:hover i{background:#fff;color:var(--deep);transform:translateX(8px)}
+.brand{gap:14px;line-height:1;min-width:0;transition:.25s transform}.brand:hover{transform:translateY(-1px)}.brand-mark{position:relative;width:60px;height:48px;flex:0 0 60px;border-radius:20px 10px 20px 10px;background:linear-gradient(135deg,#111516 0%,#22302d 58%,#9cbb2d 100%);box-shadow:0 14px 30px rgba(17,21,22,.18),inset 0 1px 0 rgba(255,255,255,.22);overflow:hidden}.brand-mark:after{content:"";position:absolute;inset:5px;border:1px solid rgba(255,255,255,.18);border-radius:16px 8px 16px 8px;pointer-events:none}.brand-symbol{position:relative;z-index:1;width:54px;height:40px}.brand-route,.brand-trunk{fill:none;stroke:#fff;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}.brand-route{stroke:rgba(255,255,255,.84);stroke-width:3}.brand-trunk{stroke:#f7fff4}.brand-leaf{fill:#9cbb2d}.brand-leaf.right{fill:#cfe46c}.brand-node{fill:#fff;stroke:#9cbb2d;stroke-width:2}.brand-copy{display:grid;gap:4px;min-width:0}.brand-name{display:block;font:800 24px/1 Poppins,Arial,sans-serif;color:var(--deep);white-space:nowrap}.brand-tagline{display:block;font:700 11px/1.1 Poppins,Arial,sans-serif;text-transform:uppercase;letter-spacing:.12em;color:#6f7b76;white-space:nowrap}.footer-brand .brand-name{color:#fff}.footer-brand .brand-tagline{color:#99a59f}.footer-brand .brand-mark{box-shadow:0 16px 34px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.22)}
+.site-header{background:#0d1212;box-shadow:none}.site-header.is-scrolled{box-shadow:0 14px 34px rgba(0,0,0,.22)}.site-header .container{width:min(calc(100% - 190px),1700px)}.navrow{height:122px}.header-brand .brand-copy{display:none}.header-brand .brand-mark{width:62px;height:58px;flex-basis:62px;border:3px solid var(--green);border-radius:0;background:transparent;box-shadow:none}.header-brand .brand-mark:after{display:none}.header-brand .brand-symbol{width:56px;height:48px}.header-brand .brand-route,.header-brand .brand-trunk{stroke:var(--green)}.header-brand .brand-leaf,.header-brand .brand-leaf.right{fill:none;stroke:var(--green);stroke-width:3;stroke-linejoin:round}.header-brand .brand-node{fill:var(--green);stroke:var(--green)}.menu{position:relative;flex:1;justify-content:center;gap:48px}.menu>a{display:inline-flex;align-items:center;gap:9px;color:#fff;font-weight:500}.menu>a:not(.nav-phone):after{display:none}.menu>a i{font-size:10px;color:currentColor}.menu>a:hover,.menu>a.is-active{color:var(--green)}.menu>a.header-phone{position:absolute;right:0;background:transparent;border:0;border-radius:0;color:var(--green);padding:0;font:300 30px/1 Roboto,Arial,sans-serif;letter-spacing:.04em}.menu>a.header-phone:hover{background:transparent;border-color:transparent;color:#fff;transform:none}
+.hero h1,.page-hero h1,.section-title h2,.split h2,.cta-band h2{font-family:Roboto,Arial,sans-serif;font-weight:100;line-height:.88;letter-spacing:0}.hero h1,.page-hero h1{font-size:clamp(56px,7vw,112px)}.section-title h2,.split h2{font-size:clamp(42px,4.7vw,72px)}.cta-band h2{font-size:clamp(44px,5.5vw,82px)}.detail-content h2,.legal h2{font-family:Roboto,Arial,sans-serif;font-weight:100;line-height:.94}
+@media (max-width:820px){.brand{gap:11px}.brand-mark{width:52px;height:42px;flex-basis:52px}.brand-symbol{width:48px;height:36px}.brand-name{font-size:21px}.brand-tagline{display:none}}
+@media (max-width:420px){.brand-mark{width:46px;height:38px;flex-basis:46px;border-radius:16px 8px}.brand-symbol{width:42px;height:32px}.brand-name{font-size:19px;max-width:170px;overflow:hidden;text-overflow:ellipsis}}
 @media (max-width:1180px){.service-grid{grid-template-columns:repeat(2,1fr)}.process-list{grid-template-columns:repeat(2,1fr)}.split{gap:40px}.footer-grid{grid-template-columns:1fr 1fr}}
 @media (max-width:820px){.topbar{display:none}.navrow{height:74px}.menu-toggle{display:block}.menu{position:absolute;left:20px;right:20px;top:74px;background:#fff;box-shadow:var(--shadow);padding:20px;display:none;flex-direction:column;align-items:flex-start}.menu.is-open{display:flex}.nav-phone{width:100%}.hero{min-height:650px;background-attachment:scroll}.stats{grid-template-columns:repeat(2,1fr);margin-top:0}.stat:nth-child(2){border-right:0}.split,.detail-grid,.faq-grid{grid-template-columns:1fr}.service-grid{grid-template-columns:1fr}.section{padding:76px 0}.hero p,.page-hero p{font-size:18px}.footer-grid{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.form-grid .full{grid-column:auto}.sidebar-card,.faq-note{position:static}.cta-band{background-attachment:scroll}.container{width:min(calc(100% - 28px),var(--container))}}
+@media (max-width:820px){.site-header .container{width:min(calc(100% - 28px),var(--container))}.navrow{height:82px}.header-brand .brand-mark{width:52px;height:50px;flex-basis:52px}.header-brand .brand-symbol{width:46px;height:42px}.menu-toggle span{background:var(--green)}.menu{top:82px;background:#0d1212;border:1px solid rgba(156,187,45,.28);box-shadow:0 20px 46px rgba(0,0,0,.28);gap:18px}.menu>a{color:#fff}.menu>a.is-active{color:var(--green)}.menu>a.header-phone,.nav-phone.header-phone{position:static;width:auto;font-size:24px;margin-top:8px;color:var(--green)}}
 @media (max-width:420px){.hero h1,.page-hero h1{font-size:38px}.stats{grid-template-columns:1fr}.stat{border-right:0;border-bottom:1px solid var(--line)}.process-list{grid-template-columns:1fr}.brand{font-size:20px}.hero-actions .btn{width:100%}.faq-item{padding:24px}}
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}.reveal{opacity:1;transform:none}}
 `);
 
 out("index.html", page({
-  title: "Find Local Tree Removal Providers in Denver | ArborLine Tree Services",
+  title: "Find Local Tree Removal Providers in Denver | ArborLine Connect",
   description: "A free homeowner connection service for tree removal, pruning, stump grinding, storm cleanup, brush removal, and lot clearing requests.",
   body: `
 <main>
@@ -416,7 +432,7 @@ out("index.html", page({
 }));
 
 out("services.html", page({
-  title: "Tree Service Provider Categories | ArborLine Tree Services",
+  title: "Tree Service Provider Categories | ArborLine Connect",
   description: "Explore local provider categories for tree removal, pruning, stump grinding, storm cleanup, lot clearing, and brush removal requests.",
   body: `
 <main>
@@ -426,17 +442,17 @@ out("services.html", page({
 }));
 
 out("about.html", page({
-  title: "About ArborLine Tree Services | Homeowner Connection Service",
-  description: "Learn how ArborLine Tree Services helps homeowners connect with independent local tree service providers.",
+  title: "About ArborLine Connect | Homeowner Connection Service",
+  description: "Learn how ArborLine Connect helps homeowners connect with independent local tree service providers.",
   body: `
 <main>
-  <section class="page-hero" style="--hero:url('../assets/images/about-team.webp')"><div class="container reveal"><span class="eyebrow">About</span><h1>A connection service for homeowners facing tree problems.</h1><p>ArborLine Tree Services is not a contractor and does not perform tree work. We help homeowners find independent local providers who may be able to respond quickly and safely.</p></div></section>
+  <section class="page-hero" style="--hero:url('../assets/images/about-team.webp')"><div class="container reveal"><span class="eyebrow">About</span><h1>A connection service for homeowners facing tree problems.</h1><p>ArborLine Connect is not a contractor and does not perform tree work. We help homeowners find independent local providers who may be able to respond quickly and safely.</p></div></section>
   <section class="section"><div class="container split"><div class="photo-frame tall reveal"><img src="assets/images/about-team.webp" alt="Tree service providers shown as illustrative models"><div class="badge">Free request help. Independent providers. Homeowner verification.</div></div><div class="reveal"><span class="kicker">Our story</span><h2>Built to make urgent tree requests easier to route.</h2><p class="lead">ArborLine was created for homeowners who do not know where to start when a tree is leaning, storm debris blocks access, a stump delays a yard project, or brush cleanup becomes too much to manage alone.</p><p>Instead of presenting ourselves as the crew doing the work, we operate as an aggregator. Our site collects the basic details of a tree-related request and helps connect homeowners with local independent service providers. The provider, not this site, is responsible for estimates, licenses, insurance, scheduling, safety practices, and completed work.</p><ul class="check-list"><li>Free connection support for homeowners</li><li>Tree removal, pruning, stump, storm, brush, and clearing categories</li><li>Clear reminder to verify license and insurance before hiring</li><li>No warranty or guarantee for work performed by independent providers</li></ul></div></div></section>
 </main>`
 }));
 
 out("contact.html", page({
-  title: "Contact ArborLine Tree Services | Request Provider Connection",
+  title: "Contact ArborLine Connect | Request Provider Connection",
   description: "Submit a free request to connect with independent local providers for tree removal, pruning, stump grinding, storm cleanup, and brush removal.",
   body: `
 <main>
@@ -447,7 +463,7 @@ out("contact.html", page({
 
 for (const s of services) {
   out(`services/${s.slug}.html`, page({
-    title: `${s.title} Provider Connections | ArborLine Tree Services`,
+    title: `${s.title} Provider Connections | ArborLine Connect`,
     description: `${s.summary} Learn what details to prepare before connecting with an independent local provider.`,
     depth: "../",
     body: `
@@ -459,14 +475,14 @@ for (const s of services) {
 }
 
 const legalText = {
-  "privacy-policy.html": ["Privacy Policy", "This Privacy Policy explains how ArborLine Tree Services handles information submitted through this free homeowner connection website.", "We collect contact details, service details, property-related request information, and messages that visitors provide through forms or direct contact links. This information is used to respond to requests and help connect homeowners with independent local service providers.", "We do not sell personal information. Limited information may be shared with service providers or business systems that help operate request routing, communication, hosting, or website functionality."],
+  "privacy-policy.html": ["Privacy Policy", "This Privacy Policy explains how ArborLine Connect handles information submitted through this free homeowner connection website.", "We collect contact details, service details, property-related request information, and messages that visitors provide through forms or direct contact links. This information is used to respond to requests and help connect homeowners with independent local service providers.", "We do not sell personal information. Limited information may be shared with service providers or business systems that help operate request routing, communication, hosting, or website functionality."],
   "terms-and-conditions.html": ["Terms & Conditions", "These terms describe the general use of this website and the request process for connecting with independent tree service providers.", "Website content is provided for general information and does not replace an on-site assessment by a qualified provider. This site is not a contractor, does not perform tree work, and does not warrant or guarantee work performed by independent providers.", "By submitting a request, visitors agree to provide accurate contact and property information. Homeowners are responsible for verifying any hired contractor's license, insurance, pricing, scope, and work terms."],
   "cookie-policy.html": ["Cookie Policy", "This Cookie Policy explains how cookies and similar technologies may be used on this website.", "Essential cookies may support basic website functionality. Analytics or advertising cookies are not hardcoded and should only be added when valid IDs are provided through an approved implementation.", "Visitors can control cookies through browser settings. Some preferences may affect how forms or embedded services behave."]
 };
 for (const [file, [title, intro, p1, p2]] of Object.entries(legalText)) {
   out(file, page({
-    title: `${title} | ArborLine Tree Services`,
-    description: `${title} for ArborLine Tree Services.`,
+    title: `${title} | ArborLine Connect`,
+    description: `${title} for ArborLine Connect.`,
     body: `<main><section class="page-hero" style="--hero:url('../assets/images/hero-tree-removal.webp')"><div class="container reveal"><span class="eyebrow">Policy</span><h1>${title}</h1><p>${intro}</p></div></section><section class="section"><div class="container legal reveal"><h2>Overview</h2><p>${p1}</p><h2>Use of information</h2><p>${p2}</p><h2>Contact</h2><p>Questions about this policy can be sent to <a data-config="email" data-attr="href:mailto" href="#"></a>.</p><h2>Updates</h2><p>This page may be updated when business practices, legal requirements, or website features change.</p></div></section></main>`
   }));
 }
