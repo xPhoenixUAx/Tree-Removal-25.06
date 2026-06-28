@@ -82,6 +82,29 @@ const services = [
   }
 ];
 
+const serviceGroups = [
+  {
+    title: "Urgent tree hazards",
+    image: "emergency-tree-removal.webp",
+    summary: "For leaning trees, storm damage, blocked access, cracked trunks, and removal requests that may need fast provider follow-up.",
+    links: ["emergency-tree-removal", "tree-removal", "storm-damage-cleanup"]
+  },
+  {
+    title: "Tree care and assessment",
+    image: "tree-trimming-pruning.webp",
+    summary: "For pruning, clearance, deadwood, canopy concerns, visible decline, pest signs, decay, or questions about whether a tree should be monitored.",
+    links: ["tree-trimming-pruning", "tree-health-assessment"]
+  },
+  {
+    title: "Cleanup and property clearing",
+    image: "land-lot-clearing.webp",
+    summary: "For stumps, brush piles, vines, saplings, overgrowth, downed limbs, and yard areas that need to be opened up or hauled away.",
+    links: ["stump-grinding", "brush-removal", "land-lot-clearing"]
+  }
+];
+
+const serviceBySlug = Object.fromEntries(services.map((service) => [service.slug, service]));
+
 const brandLogo = (depth = "", extraClass = "") => `
 <a class="brand${extraClass ? ` ${extraClass}` : ""}" href="${depth}index.html" aria-label="ArborLine Connect home">
   <span class="brand-mark" aria-hidden="true">
@@ -95,6 +118,17 @@ const brandLogo = (depth = "", extraClass = "") => `
 
 const activeClass = (active, key) => active === key ? ` class="is-active"` : "";
 
+const providerCategoryMenu = (depth = "") => serviceGroups.map((group) => `
+            <div class="dropdown-branch">
+              <a class="dropdown-branch-link" href="${depth}index.html#provider-categories">${group.title} <i class="fa-solid fa-chevron-right"></i></a>
+              <div class="dropdown-panel">
+                ${group.links.map((slug) => {
+                  const service = serviceBySlug[slug];
+                  return `<a href="${depth}services/${service.slug}.html">${service.title}</a>`;
+                }).join("")}
+              </div>
+            </div>`).join("");
+
 const nav = (depth = "", active = "") => `
 <header class="site-header" data-header>
   <div class="container navrow">
@@ -106,7 +140,12 @@ ${brandLogo(depth, "header-brand")}
         <div class="home-dropdown" data-home-dropdown>
           <a href="${depth}index.html#home" data-section-link="home">Top</a>
           <a href="${depth}index.html#start-request" data-section-link="start-request">Start request</a>
-          <a href="${depth}index.html#provider-categories" data-section-link="provider-categories">Provider categories</a>
+          <div class="dropdown-branch provider-branch">
+            <a class="dropdown-branch-link" href="${depth}index.html#provider-categories" data-section-link="provider-categories">Provider categories <i class="fa-solid fa-chevron-right"></i></a>
+            <div class="dropdown-panel category-panel">
+${providerCategoryMenu(depth)}
+            </div>
+          </div>
           <a href="${depth}index.html#how-it-works" data-section-link="how-it-works">How it works</a>
           <a href="${depth}index.html#faq" data-section-link="faq">FAQ</a>
         </div>
@@ -198,28 +237,240 @@ const serviceCard = (s, depth = "") => `
   </div>
 </article>`;
 
-const serviceGroups = [
-  {
-    title: "Urgent tree hazards",
-    image: "emergency-tree-removal.webp",
-    summary: "For leaning trees, storm damage, blocked access, cracked trunks, and removal requests that may need fast provider follow-up.",
-    links: ["emergency-tree-removal", "tree-removal", "storm-damage-cleanup"]
+const serviceDetailContent = {
+  "tree-removal": {
+    detailImage: "tree-removal-detail.webp",
+    imageAlt: "Controlled residential tree removal scene with rigging and independent providers",
+    serviceTypes: [
+      ["Hazard tree removal", "For trees that are leaning, cracked, declining, storm-weakened, or positioned near structures, driveways, walkways, fences, or utility areas."],
+      ["Sectional removal", "For limited-access properties where the tree may need to be removed in smaller controlled sections rather than felled in one piece."],
+      ["Dead or declining tree removal", "For trees with visible dieback, cavities, fungal growth, loose bark, or structural issues that a provider may need to evaluate on site."],
+      ["Space-clearing removal", "For unwanted trees blocking construction access, landscape redesigns, sunlight, views, or property use."]
+    ],
+    includedWork: [
+      "Provider request routing based on tree location, size, access, and urgency",
+      "Notes about nearby structures, fences, driveways, pools, sheds, and utilities",
+      "Photo and description prompts that help providers understand the site before follow-up",
+      "Cleanup and disposal preference capture, including logs, branches, chips, and haul-away",
+      "Guidance on what to verify before approving removal work"
+    ],
+    prepare: [
+      "Approximate tree height and trunk diameter",
+      "Whether the tree is dead, leaning, cracked, uprooted, or touching another structure",
+      "Access limitations such as narrow gates, slopes, overhead lines, or parked vehicles",
+      "Whether stump grinding, wood cutting, or full debris haul-away is also needed"
+    ],
+    verification: [
+      "Confirm license, insurance, and whether coverage applies to tree removal",
+      "Ask whether the provider will climb, use a lift, use rigging, or use machinery",
+      "Review written scope, cleanup responsibility, wood handling, and property protection",
+      "Confirm who obtains any required permit or utility clearance"
+    ]
   },
-  {
-    title: "Tree care and assessment",
-    image: "tree-trimming-pruning.webp",
-    summary: "For pruning, clearance, deadwood, canopy concerns, visible decline, pest signs, decay, or questions about whether a tree should be monitored.",
-    links: ["tree-trimming-pruning", "tree-health-assessment"]
+  "emergency-tree-removal": {
+    detailImage: "emergency-tree-removal-detail.webp",
+    imageAlt: "Storm-damaged tree blocking residential access while independent providers assess the hazard",
+    serviceTypes: [
+      ["Storm-damaged trees", "For trees split by wind, rain, snow load, or lightning where a provider may need to evaluate stability and access."],
+      ["Blocked driveway or access", "For fallen trees or limbs that prevent safe entry, parking, deliveries, or emergency access."],
+      ["Leaning or partially uprooted trees", "For trees that changed position suddenly and may require urgent professional review."],
+      ["Hanging limbs and suspended debris", "For broken branches caught in the canopy, roofline, fence, or nearby trees."]
+    ],
+    includedWork: [
+      "Urgent request routing with hazard, access, and timing notes",
+      "Details about blocked areas, visible cracks, hanging limbs, and storm conditions",
+      "Provider follow-up support for emergency or next-available availability",
+      "Notes for insurance documentation conversations, where applicable",
+      "Clear reminder that emergency response and work decisions belong to the provider"
+    ],
+    prepare: [
+      "Whether anyone is injured or in immediate danger",
+      "Whether power lines, gas lines, roads, or public sidewalks are involved",
+      "What access is blocked and whether vehicles or structures are affected",
+      "Photos from a safe distance only"
+    ],
+    verification: [
+      "Call emergency services or the utility company first for immediate hazards",
+      "Ask the provider about emergency pricing, minimum charges, and response windows",
+      "Confirm insurance and experience with storm-loaded or tensioned limbs",
+      "Get cleanup, temporary staging, and haul-away terms in writing"
+    ]
   },
-  {
-    title: "Cleanup and property clearing",
-    image: "land-lot-clearing.webp",
-    summary: "For stumps, brush piles, vines, saplings, overgrowth, downed limbs, and yard areas that need to be opened up or hauled away.",
-    links: ["stump-grinding", "brush-removal", "land-lot-clearing"]
+  "tree-trimming-pruning": {
+    detailImage: "tree-trimming-pruning-detail.webp",
+    imageAlt: "Selective residential tree pruning using a pole saw near a roofline",
+    serviceTypes: [
+      ["Clearance trimming", "For branches near roofs, gutters, driveways, walkways, fences, streets, or sightlines."],
+      ["Deadwood removal", "For dead, broken, rubbing, or hanging branches that may create maintenance or safety concerns."],
+      ["Structural pruning", "For young or mature trees where branch spacing, competing leaders, or weak attachments may need review."],
+      ["Canopy reduction or shaping", "For selective pruning requests where the provider should avoid topping and explain the intended cuts."]
+    ],
+    includedWork: [
+      "Routing by clearance need, tree type, branch size, and access conditions",
+      "Notes about roofs, walkways, driveways, neighboring property lines, and utility areas",
+      "Support for describing whether the goal is safety, health, clearance, or appearance",
+      "Cleanup preference notes for small limbs, brush, and chipped material",
+      "Questions homeowners should ask before approving pruning"
+    ],
+    prepare: [
+      "Which branches are causing concern and why",
+      "Whether the tree has been recently pruned, topped, storm-damaged, or declining",
+      "Photos showing the full tree and close-ups of the problem area",
+      "Desired clearance from structures, sidewalks, driveways, or street areas"
+    ],
+    verification: [
+      "Ask what pruning method is proposed and why",
+      "Confirm the provider will avoid unnecessary topping or excessive thinning",
+      "Review whether cleanup, chipping, and haul-away are included",
+      "Verify insurance for work near roofs, structures, or public areas"
+    ]
+  },
+  "stump-grinding": {
+    detailImage: "stump-grinding-detail.webp",
+    imageAlt: "Compact stump grinder removing a residential backyard stump",
+    serviceTypes: [
+      ["Single stump grinding", "For one visible stump left after removal or an older stump blocking yard use."],
+      ["Multiple stump grinding", "For properties with several stumps across a lawn, fence line, planting bed, or cleared area."],
+      ["Surface root grinding", "For exposed roots near the stump where a provider may need to evaluate safe grinding limits."],
+      ["Landscape preparation", "For areas being prepared for turf, beds, patios, fencing, or other yard improvements."]
+    ],
+    includedWork: [
+      "Routing by stump size, count, location, access, and desired grinding depth",
+      "Gate width, slope, steps, irrigation, edging, and obstacle notes",
+      "Preference capture for grindings left on site, spread as rough mulch, or hauled away",
+      "Information about whether backfill, soil, seed, or final landscaping is expected",
+      "Provider verification checklist for equipment access and site protection"
+    ],
+    prepare: [
+      "Approximate stump diameter and number of stumps",
+      "Whether the stump is in lawn, bed, near a fence, near concrete, or near utilities",
+      "Gate width, slope, stairs, and access route",
+      "Whether you want chips left, moved, or removed"
+    ],
+    verification: [
+      "Confirm grinding depth and whether surface roots are included",
+      "Ask whether hidden rocks, metal, irrigation, or utilities may change scope",
+      "Review cleanup, chip handling, and any backfill expectations",
+      "Confirm equipment can access the stump without damaging property"
+    ]
+  },
+  "land-lot-clearing": {
+    detailImage: "land-lot-clearing-detail.webp",
+    imageAlt: "Selective residential lot clearing with brush and small saplings being removed",
+    serviceTypes: [
+      ["Selective clearing", "For removing brush, vines, saplings, and small trees while preserving desirable mature trees or privacy screening."],
+      ["Access path clearing", "For opening driveways, side yards, fence lines, trails, utility access areas, or project staging zones."],
+      ["Overgrowth cleanup", "For dense vegetation that limits visibility, yard use, drainage, or routine maintenance."],
+      ["Pre-project clearing", "For preparing areas before landscaping, fencing, sheds, repairs, or other property work."]
+    ],
+    includedWork: [
+      "Routing by acreage or area size, vegetation density, access, slope, and disposal needs",
+      "Keep-zone and removal-zone notes so providers understand what should remain",
+      "Brush, sapling, vine, limb, and small-tree request organization",
+      "Chipping, hauling, staging, and debris preference capture",
+      "Questions to ask about equipment, property protection, and final cleanup"
+    ],
+    prepare: [
+      "Approximate size of the area to clear",
+      "What should be removed and what should stay",
+      "Photos from multiple angles showing access and density",
+      "Whether debris should be chipped, hauled, stacked, or left in a designated area"
+    ],
+    verification: [
+      "Confirm boundaries, keep zones, and removal zones before work begins",
+      "Ask what equipment will be used and whether turf or soil disturbance is expected",
+      "Review disposal, chipping, hauling, and final cleanup terms",
+      "Confirm whether permits, HOA rules, or property-line questions apply"
+    ]
+  },
+  "storm-damage-cleanup": {
+    detailImage: "storm-damage-cleanup-detail.webp",
+    imageAlt: "Residential storm debris cleanup with branches being cut and staged for chipping",
+    serviceTypes: [
+      ["Fallen limb cleanup", "For branches scattered across lawns, driveways, roofs, fences, or planting beds after a storm."],
+      ["Broken canopy cleanup", "For trees with cracked limbs, hanging debris, or damaged branches that may need removal or pruning."],
+      ["Debris cutting and stacking", "For large limbs that need to be cut into manageable sections before chipping or hauling."],
+      ["Post-storm property clearing", "For yards where debris must be removed before normal access, mowing, repair, or insurance review."]
+    ],
+    includedWork: [
+      "Routing by debris volume, access blockage, hanging limb concerns, and urgency",
+      "Notes about roof, fence, driveway, walkway, vehicle, or landscape impact",
+      "Cleanup preference capture for chipping, hauling, stacking, logs, and brush",
+      "Support for describing storm timing and affected areas",
+      "Reminder to confirm whether weakened trees need additional assessment"
+    ],
+    prepare: [
+      "Which areas are blocked or unsafe",
+      "Whether debris is on a roof, fence, driveway, lawn, or neighboring property",
+      "Whether limbs are hanging, under tension, or tangled",
+      "Photos from a safe distance and any insurance-related documentation needs"
+    ],
+    verification: [
+      "Confirm provider experience with storm-loaded branches and debris under tension",
+      "Ask whether cleanup includes raking, chipping, hauling, and final site sweep",
+      "Review emergency pricing, scheduling, and minimum trip charges",
+      "Ask whether remaining trees should be inspected after cleanup"
+    ]
+  },
+  "tree-health-assessment": {
+    detailImage: "tree-health-assessment-detail.webp",
+    imageAlt: "Provider inspecting a mature residential tree trunk and root flare with homeowner nearby",
+    serviceTypes: [
+      ["Visible decline review", "For thinning canopy, dead tops, early leaf drop, discoloration, or poor seasonal growth."],
+      ["Decay and defect concerns", "For cavities, cracks, fungal growth, included bark, loose bark, or suspected structural weakness."],
+      ["Root and soil concerns", "For exposed roots, construction disturbance, grade changes, girdling roots, or drainage issues."],
+      ["Risk indicator review", "For homeowners trying to understand whether pruning, monitoring, treatment, or removal may be discussed with a provider."]
+    ],
+    includedWork: [
+      "Routing based on visible symptoms, tree location, target areas, and urgency",
+      "Symptom organization for canopy, trunk, bark, roots, soil, pests, and fungal signs",
+      "Support for describing when changes appeared and whether storms or construction occurred",
+      "Provider follow-up path for on-site evaluation or specialized arborist referral",
+      "Homeowner reminder that this site does not diagnose tree conditions"
+    ],
+    prepare: [
+      "Photos of the full tree, canopy, trunk, root flare, and symptoms",
+      "When the issue first appeared and whether it is worsening",
+      "Nearby construction, grade changes, irrigation changes, or storm damage",
+      "Whether the tree is near structures, walkways, utility areas, or parked vehicles"
+    ],
+    verification: [
+      "Ask about the provider's assessment process and qualifications",
+      "Confirm whether a certified arborist report is needed for the situation",
+      "Review recommended options, risks, limitations, and follow-up timing",
+      "Ask for written notes when insurance, HOA, neighbor, or permit issues may matter"
+    ]
+  },
+  "brush-removal": {
+    detailImage: "brush-removal-detail.webp",
+    imageAlt: "Residential brush removal with cut branches loaded for haul-away",
+    serviceTypes: [
+      ["Brush pile removal", "For piles of branches, trimmings, hedge waste, vines, or cut limbs left after yard work or storms."],
+      ["Vine and overgrowth cleanup", "For invasive vines, tangled fence-line growth, and dense side-yard vegetation."],
+      ["Chipping and haul-away", "For homeowners who want brush chipped, removed, or staged for disposal."],
+      ["Seasonal yard cleanup", "For accumulated limb piles, hedge trimmings, and small woody debris that need organized removal."]
+    ],
+    includedWork: [
+      "Routing by brush volume, pile location, access, and disposal preference",
+      "Notes about fence lines, gates, slopes, driveways, and staging areas",
+      "Chipping, trailer loading, haul-away, and rough cleanup preference capture",
+      "Support for pairing brush removal with pruning, clearing, or storm cleanup requests",
+      "Verification checklist for final cleanup and disposal responsibility"
+    ],
+    prepare: [
+      "Approximate brush pile size or number of piles",
+      "Whether material includes vines, thorns, logs, hedge waste, or mixed debris",
+      "Where the brush is located and how providers can access it",
+      "Whether you want chipping, hauling, stacking, or curbside staging"
+    ],
+    verification: [
+      "Confirm what material is included and whether non-organic debris is excluded",
+      "Ask whether raking, tarp cleanup, and small scattered debris are included",
+      "Review haul-away, dumping, chipping, or disposal fees",
+      "Confirm how turf, beds, fences, and driveways will be protected"
+    ]
   }
-];
-
-const serviceBySlug = Object.fromEntries(services.map((service) => [service.slug, service]));
+};
 
 const serviceGroupCard = (group) => `
 <article class="service-card service-group-card reveal" style="--card-image:url('../assets/images/${group.image}')">
@@ -411,13 +662,18 @@ out("css/styles.css", `
 .footer a{transition:.25s color,.25s transform,.25s opacity}.footer a:not(.brand):hover{color:var(--green);transform:translateX(5px)}.footer-brand:hover{transform:translateY(-3px)}.footer-brand .brand-mark{transition:.25s background-color,.25s box-shadow,.25s transform}.footer-brand .brand-mark i,.footer-brand .brand-name,.footer-brand .brand-tagline{transition:.25s color}.footer-brand:hover .brand-mark{background:var(--green);box-shadow:0 16px 38px rgba(156,187,45,.2);transform:translateY(-1px)}.footer-brand:hover .brand-mark i{color:#0d1212}.footer-brand:hover .brand-name{color:var(--green)}.footer-disclaimer a:hover,.copyright a:hover{color:var(--green)}
 .modal-open{overflow:hidden}.confirmation-modal{position:fixed;inset:0;z-index:9000;display:grid;place-items:center;padding:24px;background:rgba(13,18,18,.72);opacity:0;visibility:hidden;pointer-events:none;transition:.28s opacity,.28s visibility}.confirmation-modal.is-open{opacity:1;visibility:visible;pointer-events:auto}.confirmation-dialog{position:relative;width:min(100%,520px);background:#fff;color:var(--ink);padding:42px 38px;box-shadow:0 30px 80px rgba(0,0,0,.34);transform:translateY(14px);transition:.28s transform}.confirmation-modal.is-open .confirmation-dialog{transform:translateY(0)}.confirmation-icon{width:62px;height:62px;display:grid;place-items:center;background:var(--green);color:#0d1212;margin-bottom:22px;font-size:25px}.confirmation-dialog h2{font:800 32px/1.05 Poppins,Arial,sans-serif;margin:0 0 12px;color:var(--deep)}.confirmation-dialog p{margin:0;color:var(--muted)}.confirmation-dialog .btn{margin-top:28px}.modal-close{position:absolute;top:16px;right:16px;width:38px;height:38px;display:grid;place-items:center;border:1px solid var(--line);background:#fff;color:var(--deep);cursor:pointer;transition:.22s background-color,.22s color,.22s border-color}.modal-close:hover{background:var(--deep);border-color:var(--deep);color:#fff}
 .contact-info .info-line>div{display:grid;gap:3px}.contact-info .info-line strong{display:block;line-height:1.2}.contact-info .info-line a,.contact-info .info-line span{display:block;margin:0;color:var(--ink);line-height:1.45}
+.service-detail-media{display:grid;gap:22px;align-content:start}.service-detail-media img{width:100%;aspect-ratio:16/10;object-fit:cover;box-shadow:var(--shadow)}.service-detail-note{background:var(--deep);color:#dce7dc;padding:28px}.service-detail-note h3{font:800 24px/1.15 Poppins,Arial,sans-serif;color:#fff;margin:0 0 10px}.service-type-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.service-type-card{background:#fff;border:1px solid rgba(156,187,45,.25);padding:28px;box-shadow:0 14px 34px rgba(17,21,22,.06);transition:.25s transform,.25s border-color,.25s box-shadow}.service-type-card:hover{transform:translateY(-5px);border-color:rgba(156,187,45,.7);box-shadow:0 22px 48px rgba(17,21,22,.12)}.service-type-card h3{font:800 22px/1.15 Poppins,Arial,sans-serif;color:var(--deep);margin:0 0 12px}.service-type-card p{margin:0;color:var(--muted)}.service-detail-blocks{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}.service-detail-block{background:#fff;border-top:5px solid var(--green);padding:30px;box-shadow:0 16px 38px rgba(17,21,22,.08)}.service-detail-block h3{font:800 25px/1.15 Poppins,Arial,sans-serif;color:var(--deep);margin:0 0 18px}.service-detail-block .check-list{margin:0}.service-verify-band{background:var(--deep);color:#fff}.service-verify-band .lead{color:#cdd6d0}.service-verify-band .check-list li{color:#dce7dc}.service-verify-band .check-list li:before{color:var(--green)}.service-verify-band .sidebar-card{background:#fff;color:var(--ink)}.service-verify-band .sidebar-card h3{color:var(--deep)}.service-verify-band .sidebar-card p{color:var(--muted)}.service-verify-band .sidebar-card a:not(.nav-phone){display:block;margin:11px 0;color:var(--deep);font-weight:800;transition:.22s color,.22s transform}.service-verify-band .sidebar-card a:not(.nav-phone):hover{color:var(--green);transform:translateX(4px)}
+.dropdown-branch{position:relative}.home-dropdown .dropdown-branch-link{display:flex;align-items:center;justify-content:space-between;gap:18px}.home-dropdown .dropdown-branch-link i{font-size:10px;color:currentColor;transition:.22s transform}.dropdown-panel{position:absolute;top:-14px;left:calc(100% + 10px);min-width:245px;background:#0d1212;border:1px solid rgba(156,187,45,.28);box-shadow:0 22px 52px rgba(0,0,0,.32);padding:14px 0;display:grid;gap:2px;opacity:0;visibility:hidden;transform:translateX(-6px);transition:.22s opacity,.22s transform,.22s visibility;z-index:70}.dropdown-branch:hover>.dropdown-panel,.dropdown-branch:focus-within>.dropdown-panel{opacity:1;visibility:visible;transform:translateX(0)}.dropdown-branch:hover>.dropdown-branch-link,.dropdown-branch:focus-within>.dropdown-branch-link{color:var(--green);background:rgba(156,187,45,.08)}.dropdown-branch:hover>.dropdown-branch-link i,.dropdown-branch:focus-within>.dropdown-branch-link i{transform:translateX(4px)}.category-panel{min-width:270px}.category-panel>.dropdown-branch>.dropdown-branch-link{font-weight:700}.category-panel .dropdown-panel{min-width:250px}
 [id]{scroll-margin-top:99px}
 @media (max-width:820px){.brand{gap:11px}.brand-mark{width:52px;height:42px;flex-basis:52px}.brand-name{font-size:21px}.brand-tagline{display:none}}
 @media (max-width:420px){.brand-mark{width:46px;height:38px;flex-basis:46px;border-radius:16px 8px}.brand-name{font-size:19px;max-width:170px;overflow:hidden;text-overflow:ellipsis}}
+@media (max-width:1180px){.service-type-grid{grid-template-columns:repeat(2,1fr)}.service-detail-blocks{grid-template-columns:1fr}}
 @media (max-width:1180px){.service-grid{grid-template-columns:repeat(2,1fr)}.process-list{grid-template-columns:repeat(2,1fr)}.split{gap:40px}.footer-grid{grid-template-columns:1fr 1fr}}
 @media (max-width:820px){.topbar{display:none}.navrow{height:74px}.menu-toggle{display:block}.menu{position:absolute;left:20px;right:20px;top:74px;background:#fff;box-shadow:var(--shadow);padding:20px;display:none;flex-direction:column;align-items:flex-start}.menu.is-open{display:flex}.nav-phone{width:100%}.hero{min-height:650px;background-attachment:scroll}.stats{grid-template-columns:repeat(2,1fr);margin-top:0}.stat:nth-child(2){border-right:0}.split,.detail-grid,.faq-grid{grid-template-columns:1fr}.service-grid{grid-template-columns:1fr}.section{padding:76px 0}.hero p,.page-hero p{font-size:18px}.footer-grid{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.form-grid .full{grid-column:auto}.sidebar-card,.faq-note{position:static}.cta-band{background-attachment:scroll}.container{width:min(calc(100% - 28px),var(--container))}}
+@media (max-width:820px){.service-type-grid{grid-template-columns:1fr}.service-detail-note,.service-type-card,.service-detail-block{padding:24px}}
 @media (max-width:820px){.site-header .container{width:min(calc(100% - 28px),var(--container))}.navrow{height:82px}.header-brand .brand-mark{width:52px;height:50px;flex-basis:52px}.header-brand .brand-mark i{font-size:28px}.menu-toggle span{background:var(--green)}.menu{top:82px;background:#0d1212;border:1px solid rgba(156,187,45,.28);box-shadow:0 20px 46px rgba(0,0,0,.28);gap:18px}.menu>a{color:#fff}.menu>a.is-active{color:var(--green)}.menu>a.header-phone,.nav-phone.header-phone{position:static;width:auto;font-size:24px;margin-top:8px;color:var(--green)}}
 @media (max-width:820px){.home-menu{width:100%;display:grid;gap:12px}.home-menu>.nav-link{width:100%}.home-dropdown{position:static;min-width:0;width:100%;opacity:1;visibility:visible;transform:none;box-shadow:none;border-color:rgba(156,187,45,.18);padding:8px 0}.home-dropdown a{padding:9px 14px;font-size:14px}.home-menu:hover>.nav-link i,.home-menu.is-active:hover>.nav-link i{transform:rotate(90deg)}}
+@media (max-width:820px){.dropdown-panel{position:static;min-width:0;width:100%;opacity:1;visibility:visible;transform:none;box-shadow:none;border:0;border-left:1px solid rgba(156,187,45,.22);margin:3px 0 6px 14px;padding:4px 0 4px 10px}.category-panel{min-width:0}.home-dropdown .dropdown-branch-link i{transform:rotate(90deg)}.dropdown-branch:hover>.dropdown-branch-link i,.dropdown-branch:focus-within>.dropdown-branch-link i{transform:rotate(90deg)}}
 @media (max-width:820px){.about-menu{width:100%;display:grid;gap:12px}.about-menu>.nav-link{width:100%}.about-menu:hover>.nav-link i,.about-menu.is-active:hover>.nav-link i{transform:rotate(90deg)}}
 @media (max-width:820px){[id]{scroll-margin-top:69px}}
 @media (max-width:420px){.hero h1,.page-hero h1{font-size:38px}.stats{grid-template-columns:1fr}.stat{border-right:0;border-bottom:1px solid var(--line)}.process-list{grid-template-columns:1fr}.brand{font-size:20px}.hero-actions .btn{width:100%}.faq-item{padding:24px}}
@@ -587,6 +843,7 @@ out("contact.html", page({
 }));
 
 for (const s of services) {
+  const detail = serviceDetailContent[s.slug];
   out(`services/${s.slug}.html`, page({
     title: `${s.title} Provider Connections | ArborLine Connect`,
     description: `${s.summary} Learn what details to prepare before connecting with an independent local provider.`,
@@ -595,7 +852,10 @@ for (const s of services) {
     body: `
 <main>
   <section class="page-hero" style="--hero:url('../assets/images/${s.image}')"><div class="container reveal"><span class="eyebrow">Provider category</span><h1>${s.title}</h1><p>${s.summary}</p></div></section>
-  <section class="section"><div class="container detail-grid"><article class="detail-content reveal"><span class="kicker">Connection guide</span><h2>What this request can help solve</h2><p class="lead">${s.intro}</p><h3>Details to prepare</h3><ul class="check-list">${s.includes.map(i => `<li>${i}</li>`).join("")}</ul><h3>What to confirm with a provider</h3>${s.details.map(d => `<p>${d}</p>`).join("")}<h3>When to request ${s.title.toLowerCase()} help</h3><p>Submit a request when the tree, stump, brush, or debris is limiting safe access, threatening structures, blocking future landscaping, or creating ongoing maintenance problems. This site helps with connection routing only; the homeowner chooses and verifies any contractor hired.</p><a class="btn" href="../contact.html">Request Provider Help</a></article><aside class="sidebar-card reveal"><h3>Need ${s.title.toLowerCase()}?</h3><p>Connection requests are available for <span data-service-area></span>. Independent providers set their own availability, pricing, license status, insurance coverage, and work terms.</p><a class="nav-phone" data-config="phoneLabel" data-attr="href:tel" href="#"></a><hr><h3>Related categories</h3>${services.filter(x => x.slug !== s.slug).slice(0,4).map(x => `<a class="text-link" href="${x.slug}.html">${x.title}</a>`).join("")}</aside></div></section>
+  <section class="section"><div class="container detail-grid"><article class="detail-content reveal"><span class="kicker">Connection guide</span><h2>What this <span class="accent-text">request category</span> can help organize</h2><p class="lead">${s.intro}</p><p>This page describes the types of requests that may fit this category. ArborLine Connect helps organize and route homeowner information only. Independent providers decide whether they can inspect, quote, schedule, and perform the work.</p><h3>When to request ${s.title.toLowerCase()} help</h3><p>Submit a request when the tree, stump, brush, or debris is limiting safe access, threatening structures, blocking future landscaping, creating cleanup pressure, or making it difficult to decide which provider category applies.</p><h3>Original request details this category captures</h3><ul class="check-list">${s.includes.map(i => `<li>${i}</li>`).join("")}</ul><a class="btn" href="../contact.html">Request Provider Help</a></article><aside class="service-detail-media reveal"><img src="../assets/images/${detail.detailImage}" alt="${detail.imageAlt}" loading="lazy"><div class="service-detail-note"><h3>Aggregator note</h3><p>This site does not perform ${s.title.toLowerCase()} work. It helps homeowners describe the situation and seek follow-up from independent local providers.</p></div></aside></div></section>
+  <section class="section alt"><div class="container"><div class="section-title reveal"><span class="kicker">Service types</span><h2>Common <span class="accent-text">${s.title.toLowerCase()}</span> request types.</h2><p class="lead">These examples help homeowners choose the best request path before speaking with an independent provider.</p></div><div class="service-type-grid">${detail.serviceTypes.map(([title, text]) => `<article class="service-type-card reveal"><h3>${title}</h3><p>${text}</p></article>`).join("")}</div></div></section>
+  <section class="section"><div class="container service-detail-blocks"><article class="service-detail-block reveal"><h3>What may be included</h3><ul class="check-list">${detail.includedWork.map(item => `<li>${item}</li>`).join("")}</ul></article><article class="service-detail-block reveal"><h3>Details to prepare</h3><ul class="check-list">${detail.prepare.map(item => `<li>${item}</li>`).join("")}</ul></article><article class="service-detail-block reveal"><h3>Confirm before hiring</h3><ul class="check-list">${detail.verification.map(item => `<li>${item}</li>`).join("")}</ul></article></div></section>
+  <section class="section service-verify-band"><div class="container split"><div class="reveal"><span class="kicker">Provider verification</span><h2>Use the connection, then verify the provider directly.</h2><p class="lead">ArborLine Connect is not responsible for estimates, safety practices, licensing, insurance, workmanship, cleanup, or final results. Those details belong in the homeowner's direct conversation with the independent provider.</p><ul class="check-list">${s.details.map(d => `<li>${d}</li>`).join("")}</ul></div><aside class="sidebar-card reveal"><h3>Need ${s.title.toLowerCase()}?</h3><p>Connection requests are available for <span data-service-area></span>. Independent providers set their own availability, pricing, license status, insurance coverage, and work terms.</p><a class="nav-phone" data-config="phoneLabel" data-attr="href:tel" href="#"></a><hr><h3>Related categories</h3>${services.filter(x => x.slug !== s.slug).slice(0,4).map(x => `<a href="${x.slug}.html">${x.title}</a>`).join("")}</aside></div></section>
 </main>`
   }));
 }
