@@ -30,7 +30,7 @@ document.querySelectorAll("[data-contact-form]").forEach((form) => {
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     const msg = form.querySelector(".success-message");
-    if (msg) msg.textContent = "Thank you for contacting " + (cfg.companyName || "our team") + ". We will reply from " + (cfg.email || "our office email") + " as soon as possible.";
+    if (msg) msg.textContent = "Thank you for contacting " + (cfg.companyName || "our team") + ". We will review your request and help connect you with a local independent provider.";
     form.reset();
   });
 });
