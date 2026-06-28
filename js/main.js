@@ -26,6 +26,17 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.14 });
 document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+document.querySelectorAll("[data-process-section]").forEach((section) => {
+  section.querySelectorAll("[data-process-bg]").forEach((step) => {
+    const activate = () => section.dataset.processBg = step.dataset.processBg;
+    step.addEventListener("pointerenter", activate);
+    step.addEventListener("focusin", activate);
+  });
+  section.addEventListener("pointerleave", () => delete section.dataset.processBg);
+  section.addEventListener("focusout", (event) => {
+    if (!section.contains(event.relatedTarget)) delete section.dataset.processBg;
+  });
+});
 document.querySelectorAll("[data-contact-form]").forEach((form) => {
   form.addEventListener("submit", (event) => {
     event.preventDefault();
