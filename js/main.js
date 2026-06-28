@@ -22,11 +22,29 @@ const syncHomeDropdown = () => {
     .map((link) => ({ link, section: document.getElementById(link.dataset.sectionLink) }))
     .filter((item) => item.section);
   const headerHeight = header?.getBoundingClientRect().height || 0;
-  const probeY = headerHeight + 32;
+  const probeY = headerHeight + 80;
   let active = sections[0];
   sections.forEach((item) => {
     const rect = item.section.getBoundingClientRect();
-    if (rect.top <= probeY && rect.bottom > probeY) active = item;
+    if (rect.top <= probeY) active = item;
+  });
+  sectionLinks.forEach((link) => link.classList.toggle("is-active", link === active?.link));
+};
+const syncAboutDropdown = () => {
+  if (!menu) return;
+  const path = window.location.pathname;
+  const isAbout = path.endsWith("/about.html") || path.endsWith("about.html");
+  if (!isAbout) return;
+  const sectionLinks = [...menu.querySelectorAll("[data-about-section-link]")];
+  const sections = sectionLinks
+    .map((link) => ({ link, section: document.getElementById(link.dataset.aboutSectionLink) }))
+    .filter((item) => item.section);
+  const headerHeight = header?.getBoundingClientRect().height || 0;
+  const probeY = headerHeight + 80;
+  let active = sections[0];
+  sections.forEach((item) => {
+    const rect = item.section.getBoundingClientRect();
+    if (rect.top <= probeY) active = item;
   });
   sectionLinks.forEach((link) => link.classList.toggle("is-active", link === active?.link));
 };
@@ -36,13 +54,20 @@ toggle?.addEventListener("click", () => {
 });
 window.addEventListener("hashchange", () => {
   syncHomeDropdown();
+  syncAboutDropdown();
   window.setTimeout(syncHomeDropdown, 350);
+  window.setTimeout(syncAboutDropdown, 350);
 });
 syncHomeDropdown();
-window.addEventListener("resize", syncHomeDropdown);
+syncAboutDropdown();
+window.addEventListener("resize", () => {
+  syncHomeDropdown();
+  syncAboutDropdown();
+});
 window.addEventListener("scroll", () => {
   header?.classList.toggle("is-scrolled", window.scrollY > 20);
   syncHomeDropdown();
+  syncAboutDropdown();
 }, { passive: true });
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
