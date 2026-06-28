@@ -101,10 +101,18 @@ const nav = (depth = "", active = "") => `
 ${brandLogo(depth, "header-brand")}
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu" data-menu-toggle><span></span><span></span><span></span></button>
     <nav id="site-menu" class="menu" data-menu>
-      <a${activeClass(active, "home")} href="${depth}index.html">Home <i class="fa-solid fa-chevron-right"></i></a>
-      <a${activeClass(active, "services")} href="${depth}services.html">Services <i class="fa-solid fa-chevron-right"></i></a>
-      <a${activeClass(active, "about")} href="${depth}about.html">About <i class="fa-solid fa-chevron-right"></i></a>
-      <a${activeClass(active, "contact")} href="${depth}contact.html">Contact <i class="fa-solid fa-chevron-right"></i></a>
+      <div class="nav-item home-menu${active === "home" ? " is-active" : ""}" data-home-menu>
+        <a class="nav-link" href="${depth}index.html">Home <i class="fa-solid fa-chevron-right"></i></a>
+        <div class="home-dropdown" data-home-dropdown>
+          <a href="${depth}index.html#home" data-section-link="home">Top</a>
+          <a href="${depth}index.html#start-request" data-section-link="start-request">Start request</a>
+          <a href="${depth}index.html#provider-categories" data-section-link="provider-categories">Provider categories</a>
+          <a href="${depth}index.html#how-it-works" data-section-link="how-it-works">How it works</a>
+          <a href="${depth}index.html#faq" data-section-link="faq">FAQ</a>
+        </div>
+      </div>
+      <a class="nav-link${active === "about" ? " is-active" : ""}" href="${depth}about.html">About <i class="fa-solid fa-chevron-right"></i></a>
+      <a class="nav-link${active === "contact" ? " is-active" : ""}" href="${depth}contact.html">Contact <i class="fa-solid fa-chevron-right"></i></a>
       <a class="nav-phone header-phone" data-config="phoneLabel" data-attr="href:tel" href="#"></a>
     </nav>
   </div>
@@ -246,11 +254,38 @@ document.querySelectorAll("[data-service-area]").forEach((el) => setText(el, cfg
 const header = document.querySelector("[data-header]");
 const toggle = document.querySelector("[data-menu-toggle]");
 const menu = document.querySelector("[data-menu]");
+const syncHomeDropdown = () => {
+  if (!menu) return;
+  const path = window.location.pathname;
+  const isHome = path === "/" || path.endsWith("/index.html") || path.endsWith("index.html");
+  if (!isHome) return;
+  const sectionLinks = [...menu.querySelectorAll("[data-section-link]")];
+  const sections = sectionLinks
+    .map((link) => ({ link, section: document.getElementById(link.dataset.sectionLink) }))
+    .filter((item) => item.section);
+  const headerHeight = header?.getBoundingClientRect().height || 0;
+  const probeY = headerHeight + 32;
+  let active = sections[0];
+  sections.forEach((item) => {
+    const rect = item.section.getBoundingClientRect();
+    if (rect.top <= probeY && rect.bottom > probeY) active = item;
+  });
+  sectionLinks.forEach((link) => link.classList.toggle("is-active", link === active?.link));
+};
 toggle?.addEventListener("click", () => {
   const open = menu.classList.toggle("is-open");
   toggle.setAttribute("aria-expanded", String(open));
 });
-window.addEventListener("scroll", () => header?.classList.toggle("is-scrolled", window.scrollY > 20), { passive: true });
+window.addEventListener("hashchange", () => {
+  syncHomeDropdown();
+  window.setTimeout(syncHomeDropdown, 350);
+});
+syncHomeDropdown();
+window.addEventListener("resize", syncHomeDropdown);
+window.addEventListener("scroll", () => {
+  header?.classList.toggle("is-scrolled", window.scrollY > 20);
+  syncHomeDropdown();
+}, { passive: true });
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
@@ -288,15 +323,19 @@ out("css/styles.css", `
 .brand{gap:14px;line-height:1;min-width:0;transition:.25s transform}.brand:hover{transform:translateY(-1px)}.brand-mark{position:relative;width:60px;height:48px;flex:0 0 60px;border-radius:20px 10px 20px 10px;background:linear-gradient(135deg,#111516 0%,#22302d 58%,#9cbb2d 100%);box-shadow:0 14px 30px rgba(17,21,22,.18),inset 0 1px 0 rgba(255,255,255,.22);overflow:hidden}.brand-mark:after{content:"";position:absolute;inset:5px;border:1px solid rgba(255,255,255,.18);border-radius:16px 8px 16px 8px;pointer-events:none}.brand-copy{display:grid;gap:4px;min-width:0}.brand-name{display:block;font:800 24px/1 Poppins,Arial,sans-serif;color:var(--deep);white-space:nowrap}.brand-tagline{display:block;font:700 11px/1.1 Poppins,Arial,sans-serif;text-transform:uppercase;letter-spacing:.12em;color:#6f7b76;white-space:nowrap}.footer-brand .brand-name{color:#fff}.footer-brand .brand-tagline{color:#99a59f}.footer-brand .brand-mark{box-shadow:0 16px 34px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.22)}
 .site-header{background:#0d1212;box-shadow:none}.site-header.is-scrolled{box-shadow:0 14px 34px rgba(0,0,0,.22)}.site-header .container{width:min(calc(100% - 190px),1700px)}.navrow{height:122px}.header-brand .brand-copy{display:none}.header-brand .brand-mark{width:62px;height:58px;flex-basis:62px;border:3px solid var(--green);border-radius:0;background:transparent;box-shadow:none}.header-brand .brand-mark:after{display:none}.menu{position:relative;flex:1;justify-content:center;gap:48px}.menu>a{display:inline-flex;align-items:center;gap:9px;color:#fff;font-weight:500}.menu>a:not(.nav-phone):after{display:none}.menu>a i{font-size:10px;color:currentColor;transition:.25s transform}.menu>a:hover i{transform:translateX(3px)}.menu>a.is-active i{transform:rotate(90deg)}.menu>a.is-active:hover i{transform:rotate(90deg) translateX(3px)}.menu>a:hover,.menu>a.is-active{color:var(--green)}.menu>a.header-phone{position:absolute;right:0;background:transparent;border:0;border-radius:0;color:var(--green);padding:0;font:300 30px/1 Roboto,Arial,sans-serif;letter-spacing:.04em}.menu>a.header-phone:hover{background:transparent;border-color:transparent;color:#fff;transform:none}
 .brand-mark i{font-size:26px;color:#fff;line-height:1}.header-brand .brand-mark i{font-size:34px;color:var(--green)}.footer-brand .brand-mark i{font-size:26px;color:#fff}
+.nav-item{position:relative}.home-menu>.nav-link{display:inline-flex;align-items:center;gap:9px;color:#fff;font-weight:500}.home-menu>.nav-link i{font-size:10px;color:currentColor;transition:.25s transform}.home-menu:hover>.nav-link,.home-menu:focus-within>.nav-link,.home-menu.is-active>.nav-link{color:var(--green)}.home-menu:hover>.nav-link i{transform:translateX(3px)}.home-menu.is-active>.nav-link i{transform:rotate(90deg)}.home-menu.is-active:hover>.nav-link i{transform:rotate(90deg) translateX(3px)}.home-dropdown{position:absolute;top:calc(100% + 22px);left:-22px;min-width:230px;background:#0d1212;border:1px solid rgba(156,187,45,.28);box-shadow:0 22px 52px rgba(0,0,0,.32);padding:14px 0;display:grid;gap:2px;opacity:0;visibility:hidden;transform:translateY(8px);transition:.22s opacity,.22s transform,.22s visibility;z-index:60}.home-menu:hover .home-dropdown,.home-menu:focus-within .home-dropdown{opacity:1;visibility:visible;transform:translateY(0)}.home-dropdown a{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;color:#dce7dc;font-weight:500;white-space:nowrap}.home-dropdown a:hover,.home-dropdown a.is-active{color:var(--green);background:rgba(156,187,45,.08)}.home-dropdown a.is-active:after{content:"";width:7px;height:7px;border-radius:50%;background:var(--green)}
 .hero h1,.page-hero h1,.section-title h2,.split h2,.cta-band h2{font-family:Roboto,Arial,sans-serif;font-weight:100;line-height:.88;letter-spacing:0}.hero h1,.page-hero h1{font-size:clamp(56px,7vw,112px)}.section-title h2,.split h2{font-size:clamp(42px,4.7vw,72px)}.cta-band h2{font-size:clamp(44px,5.5vw,82px)}.detail-content h2,.legal h2{font-family:Roboto,Arial,sans-serif;font-weight:100;line-height:.94}
 .hero-content{max-width:1120px;padding:96px 0 86px}.hero h1{max-width:1100px;line-height:.96;font-size:clamp(60px,6.6vw,118px);margin:22px 0 28px}.hero p{max-width:780px}
 .hero{background-image:linear-gradient(90deg,rgba(17,21,22,.78),rgba(17,21,22,.48) 48%,rgba(17,21,22,.24)),var(--hero)}
 .accent-text{color:var(--green)}
+[id]{scroll-margin-top:99px}
 @media (max-width:820px){.brand{gap:11px}.brand-mark{width:52px;height:42px;flex-basis:52px}.brand-name{font-size:21px}.brand-tagline{display:none}}
 @media (max-width:420px){.brand-mark{width:46px;height:38px;flex-basis:46px;border-radius:16px 8px}.brand-name{font-size:19px;max-width:170px;overflow:hidden;text-overflow:ellipsis}}
 @media (max-width:1180px){.service-grid{grid-template-columns:repeat(2,1fr)}.process-list{grid-template-columns:repeat(2,1fr)}.split{gap:40px}.footer-grid{grid-template-columns:1fr 1fr}}
 @media (max-width:820px){.topbar{display:none}.navrow{height:74px}.menu-toggle{display:block}.menu{position:absolute;left:20px;right:20px;top:74px;background:#fff;box-shadow:var(--shadow);padding:20px;display:none;flex-direction:column;align-items:flex-start}.menu.is-open{display:flex}.nav-phone{width:100%}.hero{min-height:650px;background-attachment:scroll}.stats{grid-template-columns:repeat(2,1fr);margin-top:0}.stat:nth-child(2){border-right:0}.split,.detail-grid,.faq-grid{grid-template-columns:1fr}.service-grid{grid-template-columns:1fr}.section{padding:76px 0}.hero p,.page-hero p{font-size:18px}.footer-grid{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.form-grid .full{grid-column:auto}.sidebar-card,.faq-note{position:static}.cta-band{background-attachment:scroll}.container{width:min(calc(100% - 28px),var(--container))}}
 @media (max-width:820px){.site-header .container{width:min(calc(100% - 28px),var(--container))}.navrow{height:82px}.header-brand .brand-mark{width:52px;height:50px;flex-basis:52px}.header-brand .brand-mark i{font-size:28px}.menu-toggle span{background:var(--green)}.menu{top:82px;background:#0d1212;border:1px solid rgba(156,187,45,.28);box-shadow:0 20px 46px rgba(0,0,0,.28);gap:18px}.menu>a{color:#fff}.menu>a.is-active{color:var(--green)}.menu>a.header-phone,.nav-phone.header-phone{position:static;width:auto;font-size:24px;margin-top:8px;color:var(--green)}}
+@media (max-width:820px){.home-menu{width:100%;display:grid;gap:12px}.home-menu>.nav-link{width:100%}.home-dropdown{position:static;min-width:0;width:100%;opacity:1;visibility:visible;transform:none;box-shadow:none;border-color:rgba(156,187,45,.18);padding:8px 0}.home-dropdown a{padding:9px 14px;font-size:14px}.home-menu:hover>.nav-link i,.home-menu.is-active:hover>.nav-link i{transform:rotate(90deg)}}
+@media (max-width:820px){[id]{scroll-margin-top:69px}}
 @media (max-width:420px){.hero h1,.page-hero h1{font-size:38px}.stats{grid-template-columns:1fr}.stat{border-right:0;border-bottom:1px solid var(--line)}.process-list{grid-template-columns:1fr}.brand{font-size:20px}.hero-actions .btn{width:100%}.faq-item{padding:24px}}
 @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}.reveal{opacity:1;transform:none}}
 `);
@@ -307,7 +346,7 @@ out("index.html", page({
   active: "home",
   body: `
 <main>
-  <section class="hero" style="--hero:url('../assets/images/hero-tree-removal.webp')">
+  <section class="hero" id="home" style="--hero:url('../assets/images/hero-tree-removal.webp')">
     <div class="container hero-content reveal">
       <span class="eyebrow">Tree provider connection service</span>
       <h1>Find <span class="accent-text">local help</span> for urgent <span class="accent-text">tree problems</span>.</h1>
@@ -321,7 +360,7 @@ out("index.html", page({
     <div class="stat"><strong>24/7</strong><span>online request intake</span></div>
     <div class="stat"><strong>500+</strong><span>local provider connections</span></div>
   </div>
-  <section class="section alt">
+  <section class="section alt" id="start-request">
     <div class="container split">
       <div class="reveal">
         <span class="kicker">When to start a request</span>
@@ -347,16 +386,16 @@ out("index.html", page({
         <span class="kicker">How the aggregator helps</span>
         <h2>Describe the tree issue once and get routed toward <span class="accent-text">local provider</span> options.</h2>
         <p class="lead">Tree problems are stressful when they involve storm damage, blocked access, leaning trunks, or cleanup decisions. Our site helps homeowners organize the request and seek contact from independent providers who may be able to help.</p>
-        <a class="text-link" href="services.html">View provider categories <i class="fa-solid fa-arrow-right"></i></a>
+        <a class="text-link" href="#provider-categories">View provider categories <i class="fa-solid fa-arrow-right"></i></a>
       </div>
       <div class="photo-frame tall reveal"><img src="assets/images/process-worksite.webp" alt="Tree service worksite used to illustrate provider categories"></div>
     </div>
   </section>
-  <section class="section alt">
+  <section class="section alt" id="provider-categories">
     <div class="container">
       <div class="section-title reveal"><span class="kicker">Provider categories</span><h2>Start with the <span class="accent-text">problem</span>, then choose the right request group.</h2><p class="lead">The most common tree requests fall into a few practical groups. Each group links to the detailed provider categories when you need a narrower match.</p></div>
       <div class="service-grid service-group-grid">${serviceGroups.map(group => serviceGroupCard(group)).join("")}</div>
-      <div class="section-title reveal service-all-link"><a class="text-link" href="services.html">View all provider categories <i class="fa-solid fa-arrow-right"></i></a></div>
+      <div class="section-title reveal service-all-link"><a class="text-link" href="#provider-categories">Review provider groups <i class="fa-solid fa-arrow-right"></i></a></div>
     </div>
   </section>
   <section class="section">
@@ -375,7 +414,7 @@ out("index.html", page({
       </div>
     </div>
   </section>
-  <section class="section dark process-section" data-process-section>
+  <section class="section dark process-section" id="how-it-works" data-process-section>
     <div class="process-bg-layer process-bg-describe" aria-hidden="true"></div>
     <div class="process-bg-layer process-bg-route" aria-hidden="true"></div>
     <div class="process-bg-layer process-bg-connect" aria-hidden="true"></div>
@@ -391,7 +430,7 @@ out("index.html", page({
       </div>
     </div>
   </section>
-  <section class="section alt">
+  <section class="section alt" id="faq">
     <div class="container faq-layout reveal">
       <div class="section-title left">
         <span class="kicker">Questions homeowners ask</span>
@@ -431,17 +470,6 @@ out("index.html", page({
 </main>`
 }));
 
-out("services.html", page({
-  title: "Tree Service Provider Categories | ArborLine Connect",
-  description: "Explore local provider categories for tree removal, pruning, stump grinding, storm cleanup, lot clearing, and brush removal requests.",
-  active: "services",
-  body: `
-<main>
-  <section class="page-hero" style="--hero:url('../assets/images/process-worksite.webp')"><div class="container reveal"><span class="eyebrow">Provider categories</span><h1>Find the right <span class="accent-text">local tree</span> service category.</h1><p>Use these pages to identify the type of help you may need, then submit a request to connect with independent local providers.</p></div></section>
-  <section class="section"><div class="container"><div class="service-grid">${services.map(s => serviceCard(s)).join("")}</div></div></section>
-</main>`
-}));
-
 out("about.html", page({
   title: "About ArborLine Connect | Homeowner Connection Service",
   description: "Learn how ArborLine Connect helps homeowners connect with independent local tree service providers.",
@@ -469,7 +497,7 @@ for (const s of services) {
     title: `${s.title} Provider Connections | ArborLine Connect`,
     description: `${s.summary} Learn what details to prepare before connecting with an independent local provider.`,
     depth: "../",
-    active: "services",
+    active: "home",
     body: `
 <main>
   <section class="page-hero" style="--hero:url('../assets/images/${s.image}')"><div class="container reveal"><span class="eyebrow">Provider category</span><h1>${s.title}</h1><p>${s.summary}</p></div></section>
@@ -496,7 +524,7 @@ Allow: /
 Sitemap: https://arborlinetreeservices.com/sitemap.xml
 `);
 
-const urls = ["index.html", "services.html", "about.html", "contact.html", "privacy-policy.html", "terms-and-conditions.html", "cookie-policy.html", ...services.map(s => `services/${s.slug}.html`)];
+const urls = ["index.html", "about.html", "contact.html", "privacy-policy.html", "terms-and-conditions.html", "cookie-policy.html", ...services.map(s => `services/${s.slug}.html`)];
 out("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.map(u => `  <url><loc>https://arborlinetreeservices.com/${u === "index.html" ? "" : u}</loc></url>`).join("\n")}

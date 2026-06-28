@@ -12,11 +12,38 @@ document.querySelectorAll("[data-service-area]").forEach((el) => setText(el, cfg
 const header = document.querySelector("[data-header]");
 const toggle = document.querySelector("[data-menu-toggle]");
 const menu = document.querySelector("[data-menu]");
+const syncHomeDropdown = () => {
+  if (!menu) return;
+  const path = window.location.pathname;
+  const isHome = path === "/" || path.endsWith("/index.html") || path.endsWith("index.html");
+  if (!isHome) return;
+  const sectionLinks = [...menu.querySelectorAll("[data-section-link]")];
+  const sections = sectionLinks
+    .map((link) => ({ link, section: document.getElementById(link.dataset.sectionLink) }))
+    .filter((item) => item.section);
+  const headerHeight = header?.getBoundingClientRect().height || 0;
+  const probeY = headerHeight + 32;
+  let active = sections[0];
+  sections.forEach((item) => {
+    const rect = item.section.getBoundingClientRect();
+    if (rect.top <= probeY && rect.bottom > probeY) active = item;
+  });
+  sectionLinks.forEach((link) => link.classList.toggle("is-active", link === active?.link));
+};
 toggle?.addEventListener("click", () => {
   const open = menu.classList.toggle("is-open");
   toggle.setAttribute("aria-expanded", String(open));
 });
-window.addEventListener("scroll", () => header?.classList.toggle("is-scrolled", window.scrollY > 20), { passive: true });
+window.addEventListener("hashchange", () => {
+  syncHomeDropdown();
+  window.setTimeout(syncHomeDropdown, 350);
+});
+syncHomeDropdown();
+window.addEventListener("resize", syncHomeDropdown);
+window.addEventListener("scroll", () => {
+  header?.classList.toggle("is-scrolled", window.scrollY > 20);
+  syncHomeDropdown();
+}, { passive: true });
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {

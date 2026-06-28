@@ -29,10 +29,18 @@
 </a>
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu" data-menu-toggle><span></span><span></span><span></span></button>
     <nav id="site-menu" class="menu" data-menu>
-      <a href="../index.html">Home <i class="fa-solid fa-chevron-right"></i></a>
-      <a class="is-active" href="../services.html">Services <i class="fa-solid fa-chevron-right"></i></a>
-      <a href="../about.html">About <i class="fa-solid fa-chevron-right"></i></a>
-      <a href="../contact.html">Contact <i class="fa-solid fa-chevron-right"></i></a>
+      <div class="nav-item home-menu is-active" data-home-menu>
+        <a class="nav-link" href="../index.html">Home <i class="fa-solid fa-chevron-right"></i></a>
+        <div class="home-dropdown" data-home-dropdown>
+          <a href="../index.html#home" data-section-link="home">Top</a>
+          <a href="../index.html#start-request" data-section-link="start-request">Start request</a>
+          <a href="../index.html#provider-categories" data-section-link="provider-categories">Provider categories</a>
+          <a href="../index.html#how-it-works" data-section-link="how-it-works">How it works</a>
+          <a href="../index.html#faq" data-section-link="faq">FAQ</a>
+        </div>
+      </div>
+      <a class="nav-link" href="../about.html">About <i class="fa-solid fa-chevron-right"></i></a>
+      <a class="nav-link" href="../contact.html">Contact <i class="fa-solid fa-chevron-right"></i></a>
       <a class="nav-phone header-phone" data-config="phoneLabel" data-attr="href:tel" href="#"></a>
     </nav>
   </div>
