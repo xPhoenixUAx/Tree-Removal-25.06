@@ -7,6 +7,21 @@ const out = (file, content) => {
   writeFileSync(join(root, file), content.trimStart(), "utf8");
 };
 
+const siteConfig = {
+  companyName: "ArborLine Connect",
+  shortName: "ArborLine",
+  phone: "+1-720-555-0186",
+  phoneLabel: "(720) 555-0186",
+  email: "hello@arborlinetreeservices.com",
+  website: "https://arborlinetreeservices.com",
+  address: "1847 Greenway Ridge, Denver, CO 80221",
+  companyId: "CO-TR-48291",
+  serviceArea: "Denver, Aurora, Lakewood, Arvada, Westminster, and nearby Colorado communities",
+  businessHours: "Mon-Sat 7:00 AM - 7:00 PM",
+  footerText: "A homeowner connection service for tree removal, pruning, storm cleanup, stump grinding, and property clearing requests.",
+  copyright: "Copyright 2026 ArborLine Connect. All rights reserved."
+};
+
 const services = [
   {
     slug: "tree-removal",
@@ -106,7 +121,7 @@ const serviceGroups = [
 const serviceBySlug = Object.fromEntries(services.map((service) => [service.slug, service]));
 
 const brandLogo = (depth = "", extraClass = "") => `
-<a class="brand${extraClass ? ` ${extraClass}` : ""}" href="${depth}index.html" aria-label="ArborLine Connect home">
+<a class="brand${extraClass ? ` ${extraClass}` : ""}" href="${depth}index.html" aria-label="${siteConfig.companyName} home">
   <span class="brand-mark" aria-hidden="true">
     <i class="fa-solid fa-tree"></i>
   </span>
@@ -222,7 +237,7 @@ const page = ({ title, description, body, depth = "", active = "" }) => `<!docty
 </div>
 ${nav(depth, active)}
 ${body}
-<a class="floating-cta" data-floating-cta href="#" aria-label="Call ArborLine Connect">
+<a class="floating-cta" data-floating-cta href="#" aria-label="Call ${siteConfig.companyName}">
   <i class="fa-solid fa-phone" aria-hidden="true"></i>
   <span>Call</span>
 </a>
@@ -477,7 +492,7 @@ const serviceDetailContent = {
 };
 
 const serviceGroupCard = (group) => `
-<article class="service-card service-group-card reveal" style="--card-image:url('../assets/images/${group.image}')">
+<article class="service-card service-group-card reveal" style="--card-image:url('/assets/images/${group.image}')">
   <div class="service-card-body">
     <span class="kicker">Service group</span>
     <h3>${group.title}</h3>
@@ -492,19 +507,7 @@ const serviceGroupCard = (group) => `
 </article>`;
 
 out("js/site-config.js", `
-window.siteConfig = {
-  companyName: "ArborLine Connect",
-  phone: "+1-720-555-0186",
-  phoneLabel: "(720) 555-0186",
-  email: "hello@arborlinetreeservices.com",
-  website: "https://arborlinetreeservices.com",
-  address: "1847 Greenway Ridge, Denver, CO 80221",
-  companyId: "CO-TR-48291",
-  serviceArea: "Denver, Aurora, Lakewood, Arvada, Westminster, and nearby Colorado communities",
-  businessHours: "Mon-Sat 7:00 AM - 7:00 PM",
-  footerText: "A free homeowner connection service for tree removal, pruning, storm cleanup, stump grinding, and property clearing requests.",
-  copyright: "Copyright 2026 ArborLine Connect. All rights reserved."
-};
+window.siteConfig = ${JSON.stringify(siteConfig, null, 2)};
 `);
 
 out("js/main.js", `
@@ -730,16 +733,16 @@ out("css/styles.css", `
 `);
 
 out("index.html", page({
-  title: "Find Local Tree Removal Providers in Denver | ArborLine Connect",
+  title: `Find Local Tree Removal Providers in Denver | ${siteConfig.companyName}`,
   description: "A free homeowner connection service for tree removal, pruning, stump grinding, storm cleanup, brush removal, and lot clearing requests.",
   active: "home",
   body: `
 <main>
-  <section class="hero" id="home" style="--hero:url('../assets/images/hero-tree-removal.webp')">
+  <section class="hero" id="home" style="--hero:url('/assets/images/hero-tree-removal.webp')">
     <div class="container hero-content reveal">
       <span class="eyebrow">Tree provider connection service</span>
       <h1>Find <span class="accent-text">local help</span> for urgent <span class="accent-text">tree problems</span>.</h1>
-      <p>ArborLine is a free service that helps homeowners connect with independent local providers for removals, pruning, storm cleanup, stumps, brush, and property clearing.</p>
+      <p>${siteConfig.shortName} helps homeowners connect with independent local providers for removals, pruning, storm cleanup, stumps, brush, and property clearing.</p>
       <div class="hero-actions"><a class="btn" href="contact.html">Request Provider Help</a><a class="btn secondary" data-config="phoneLabel" data-attr="href:tel" href="#"></a></div>
     </div>
   </section>
@@ -754,7 +757,7 @@ out("index.html", page({
       <div class="reveal">
         <span class="kicker">When to start a request</span>
         <h2><span class="accent-text">Tree problems</span> are easier to route when the situation is described clearly.</h2>
-        <p class="lead">Homeowners usually come to ArborLine when the issue feels urgent, confusing, or hard to explain to multiple companies one by one.</p>
+        <p class="lead">Homeowners usually come to ${siteConfig.shortName} when the issue feels urgent, confusing, or hard to explain to multiple companies one by one.</p>
         <ul class="check-list">
           <li>A tree is leaning toward a house, fence, driveway, or utility area</li>
           <li>Storm limbs are hanging, cracked, or blocking access</li>
@@ -792,7 +795,7 @@ out("index.html", page({
       <div class="reveal">
         <span class="kicker">Before hiring</span>
         <h2>Use the connection, then <span class="accent-text">verify</span> the contractor directly.</h2>
-        <p class="lead">ArborLine helps with the search and request flow. The final hiring decision belongs to the homeowner, so every provider conversation should include basic verification.</p>
+        <p class="lead">${siteConfig.shortName} helps with the search and request flow. The final hiring decision belongs to the homeowner, so every provider conversation should include basic verification.</p>
         <ul class="check-list">
           <li>Ask for license and insurance information required for the work</li>
           <li>Confirm who performs the work and who is responsible for cleanup</li>
@@ -823,12 +826,12 @@ out("index.html", page({
       <div class="section-title left">
         <span class="kicker">Questions homeowners ask</span>
         <h2>What to know before using this <span class="accent-text">connection service</span>.</h2>
-        <p class="lead">These answers set expectations clearly: ArborLine helps with routing, while independent providers handle estimates, scheduling, pricing, and the work itself.</p>
+        <p class="lead">These answers set expectations clearly: ${siteConfig.shortName} helps with routing, while independent providers handle estimates, scheduling, pricing, and the work itself.</p>
       </div>
       <div class="faq-grid">
         <div class="faq-list">
           <article class="faq-item">
-            <div><h3>Does ArborLine perform tree removal or cleanup?</h3><p>No. ArborLine is a free service that helps homeowners connect with independent local providers. Contractors and providers are not employees of this site.</p></div>
+            <div><h3>Does ${siteConfig.shortName} perform tree removal or cleanup?</h3><p>No. ${siteConfig.shortName} helps homeowners connect with independent local providers. Contractors and providers are not employees of this site.</p></div>
           </article>
           <article class="faq-item">
             <div><h3>Is there a cost to submit a request?</h3><p>No. The site is free for homeowners to use. Any project pricing, estimate, deposit, or payment terms are handled directly with the independent provider you choose to hire.</p></div>
@@ -859,31 +862,31 @@ out("index.html", page({
 }));
 
 out("about.html", page({
-  title: "About ArborLine Connect | Homeowner Connection Service",
-  description: "Learn how ArborLine Connect helps homeowners connect with independent local tree service providers.",
+  title: `About ${siteConfig.companyName} | Homeowner Connection Service`,
+  description: `Learn how ${siteConfig.companyName} helps homeowners connect with independent local tree service providers.`,
   active: "about",
   body: `
 <main>
-  <section class="page-hero" style="--hero:url('../assets/images/about-hero-connect.webp')"><div class="container reveal"><span class="eyebrow">About</span><h1>A connection service for homeowners facing <span class="accent-text">tree problems</span>.</h1><p>ArborLine Connect is not a contractor and does not perform tree work. We help homeowners find independent local providers who may be able to respond quickly and safely.</p></div></section>
-  <section class="section" id="about-company"><div class="container split"><div class="photo-frame tall reveal"><img src="assets/images/about-team.webp" alt="Tree service providers shown as illustrative models"><div class="badge">Free request help. Independent providers. Homeowner verification.</div></div><div class="reveal"><span class="kicker">About company</span><h2>Built to make urgent tree requests easier to <span class="accent-text">route</span>.</h2><p class="lead">ArborLine was created for homeowners who do not know where to start when a tree is leaning, storm debris blocks access, a stump delays a yard project, or brush cleanup becomes too much to manage alone.</p><p>Instead of presenting ourselves as the crew doing the work, we operate as an aggregator. Our site collects the basic details of a tree-related request and helps connect homeowners with local independent service providers. The provider, not this site, is responsible for estimates, licenses, insurance, scheduling, safety practices, and completed work.</p><p>Our role is to reduce the friction of describing the same issue repeatedly. A clear request can include the tree location, access limits, visible damage, urgency level, photos, cleanup expectations, and the type of property affected.</p><h3>How we think about requests</h3><ul class="check-list"><li>Start with the homeowner's safety concern or access problem</li><li>Organize the request into a practical provider category</li><li>Keep the homeowner responsible for final contractor verification</li><li>Avoid promising response times, pricing, workmanship, or availability</li></ul><h3>What makes the site different</h3><p>ArborLine is designed as a simple connection layer. It helps homeowners prepare a better request, while independent providers remain responsible for estimates, scheduling, insurance, licensing, jobsite decisions, and completed work.</p></div></div></section>
-  <section class="section alt" id="about-services"><div class="container split"><div class="reveal"><span class="kicker">About services</span><h2>Provider categories built around real <span class="accent-text">tree problems</span>.</h2><p class="lead">The site organizes requests by the type of issue homeowners usually need help describing: removal, pruning, storm cleanup, stump grinding, brush removal, lot clearing, and tree health concerns.</p><p>Each category is a connection path, not a direct service offering from ArborLine. Independent providers decide whether they can respond, quote, schedule, and perform the work.</p><h3>Common request groups</h3><ul class="check-list"><li><strong>Urgent hazards:</strong> leaning trees, split trunks, fallen limbs, blocked access, and storm debris</li><li><strong>Tree care:</strong> pruning, clearance trimming, structural concerns, and visible health symptoms</li><li><strong>Cleanup and clearing:</strong> stumps, brush piles, overgrowth, lot clearing, and haul-away needs</li></ul><h3>What homeowners should prepare</h3><p>Useful details include approximate tree size, where the issue is located, whether structures or utilities are nearby, how providers can access the area, whether debris removal is needed, and whether the request feels urgent.</p><a class="text-link" href="index.html#provider-categories">View provider categories <i class="fa-solid fa-arrow-right"></i></a></div><aside class="sidebar-card reveal"><h3>What ArborLine helps route</h3><ul class="check-list"><li>Urgent tree hazards and storm damage</li><li>Pruning, clearance, and assessment requests</li><li>Stumps, brush piles, and property clearing</li><li>Provider conversations that homeowners verify directly</li></ul><hr><h3>Before hiring</h3><p>Ask any provider for license and insurance details, a written scope, cleanup terms, disposal expectations, and the name of the party responsible for the work.</p></aside></div></section>
+  <section class="page-hero" style="--hero:url('/assets/images/about-hero-connect.webp')"><div class="container reveal"><span class="eyebrow">About</span><h1>A connection service for homeowners facing <span class="accent-text">tree problems</span>.</h1><p>${siteConfig.companyName} is not a contractor and does not perform tree work. We help homeowners find independent local providers who may be able to respond quickly and safely.</p></div></section>
+  <section class="section" id="about-company"><div class="container split"><div class="photo-frame tall reveal"><img src="assets/images/about-team.webp" alt="Tree service providers shown as illustrative models"><div class="badge">Request help. Independent providers. Homeowner verification.</div></div><div class="reveal"><span class="kicker">About company</span><h2>Built to make urgent tree requests easier to <span class="accent-text">route</span>.</h2><p class="lead">${siteConfig.shortName} was created for homeowners who do not know where to start when a tree is leaning, storm debris blocks access, a stump delays a yard project, or brush cleanup becomes too much to manage alone.</p><p>Instead of presenting ourselves as the crew doing the work, we operate as an aggregator. Our site collects the basic details of a tree-related request and helps connect homeowners with local independent service providers. The provider, not this site, is responsible for estimates, licenses, insurance, scheduling, safety practices, and completed work.</p><p>Our role is to reduce the friction of describing the same issue repeatedly. A clear request can include the tree location, access limits, visible damage, urgency level, photos, cleanup expectations, and the type of property affected.</p><h3>How we think about requests</h3><ul class="check-list"><li>Start with the homeowner's safety concern or access problem</li><li>Organize the request into a practical provider category</li><li>Keep the homeowner responsible for final contractor verification</li><li>Avoid promising response times, pricing, workmanship, or availability</li></ul><h3>What makes the site different</h3><p>${siteConfig.shortName} is designed as a simple connection layer. It helps homeowners prepare a better request, while independent providers remain responsible for estimates, scheduling, insurance, licensing, jobsite decisions, and completed work.</p></div></div></section>
+  <section class="section alt" id="about-services"><div class="container split"><div class="reveal"><span class="kicker">About services</span><h2>Provider categories built around real <span class="accent-text">tree problems</span>.</h2><p class="lead">The site organizes requests by the type of issue homeowners usually need help describing: removal, pruning, storm cleanup, stump grinding, brush removal, lot clearing, and tree health concerns.</p><p>Each category is a connection path, not a direct service offering from ${siteConfig.shortName}. Independent providers decide whether they can respond, quote, schedule, and perform the work.</p><h3>Common request groups</h3><ul class="check-list"><li><strong>Urgent hazards:</strong> leaning trees, split trunks, fallen limbs, blocked access, and storm debris</li><li><strong>Tree care:</strong> pruning, clearance trimming, structural concerns, and visible health symptoms</li><li><strong>Cleanup and clearing:</strong> stumps, brush piles, overgrowth, lot clearing, and haul-away needs</li></ul><h3>What homeowners should prepare</h3><p>Useful details include approximate tree size, where the issue is located, whether structures or utilities are nearby, how providers can access the area, whether debris removal is needed, and whether the request feels urgent.</p><a class="text-link" href="index.html#provider-categories">View provider categories <i class="fa-solid fa-arrow-right"></i></a></div><aside class="sidebar-card reveal"><h3>What ${siteConfig.shortName} helps route</h3><ul class="check-list"><li>Urgent tree hazards and storm damage</li><li>Pruning, clearance, and assessment requests</li><li>Stumps, brush piles, and property clearing</li><li>Provider conversations that homeowners verify directly</li></ul><hr><h3>Before hiring</h3><p>Ask any provider for license and insurance details, a written scope, cleanup terms, disposal expectations, and the name of the party responsible for the work.</p></aside></div></section>
 </main>`
 }));
 
 out("contact.html", page({
-  title: "Contact ArborLine Connect | Request Provider Connection",
-  description: "Submit a free request to connect with independent local providers for tree removal, pruning, stump grinding, storm cleanup, and brush removal.",
+  title: `Contact ${siteConfig.companyName} | Request Provider Connection`,
+  description: "Submit a request to connect with independent local providers for tree removal, pruning, stump grinding, storm cleanup, and brush removal.",
   active: "contact",
   body: `
 <main>
-  <section class="page-hero" style="--hero:url('../assets/images/contact-consultation.webp')"><div class="container reveal"><span class="eyebrow">Contact</span><h1>Tell us what kind of <span class="accent-text">provider</span> you need.</h1><p>Share the tree location, access limits, storm damage, cleanup needs, and urgency so the request can be routed toward relevant independent local providers.</p></div></section>
-  <section class="section"><div class="container split"><form class="reveal" data-contact-form><div class="form-grid"><label>Name<input required name="name" autocomplete="name"></label><label>Email<input required type="email" name="email" autocomplete="email"></label><label>Phone<input required name="phone" autocomplete="tel"></label><label>Service<select name="service">${services.map(s => `<option>${s.title}</option>`).join("")}</select></label><label class="full">Message<textarea required name="message"></textarea></label></div><button class="btn" type="submit">Request Provider Help</button></form><div class="contact-info reveal"><span class="kicker">Connection details</span><h2>A free request service for homeowners seeking <span class="accent-text">local tree providers</span>.</h2><p>This site helps collect and route your request. Any provider you choose to hire is independent from this site, and you are responsible for verifying license, insurance, pricing, and scope before work begins.</p><div class="info-line"><i class="fa-solid fa-phone"></i><div><strong>Phone</strong><a data-config="phoneLabel" data-attr="href:tel" href="#"></a></div></div><div class="info-line"><i class="fa-solid fa-envelope"></i><div><strong>Email</strong><a data-config="email" data-attr="href:mailto" href="#"></a></div></div><div class="info-line"><i class="fa-solid fa-location-dot"></i><div><strong>Service area</strong><span data-service-area></span></div></div><div class="info-line"><i class="fa-solid fa-globe"></i><div><strong>Website</strong><a data-config="website" data-attr="href" href="#"></a></div></div></div></div></section>
+  <section class="page-hero" style="--hero:url('/assets/images/contact-consultation.webp')"><div class="container reveal"><span class="eyebrow">Contact</span><h1>Tell us what kind of <span class="accent-text">provider</span> you need.</h1><p>Share the tree location, access limits, storm damage, cleanup needs, and urgency so the request can be routed toward relevant independent local providers.</p></div></section>
+  <section class="section"><div class="container split"><form class="reveal" data-contact-form><div class="form-grid"><label>Name<input required name="name" autocomplete="name"></label><label>Email<input required type="email" name="email" autocomplete="email"></label><label>Phone<input required name="phone" autocomplete="tel"></label><label>Service<select name="service">${services.map(s => `<option>${s.title}</option>`).join("")}</select></label><label class="full">Message<textarea required name="message"></textarea></label></div><button class="btn" type="submit">Request Provider Help</button></form><div class="contact-info reveal"><span class="kicker">Connection details</span><h2>A request service for homeowners seeking <span class="accent-text">local tree providers</span>.</h2><p>This site helps collect and route your request. Any provider you choose to hire is independent from this site, and you are responsible for verifying license, insurance, pricing, and scope before work begins.</p><div class="info-line"><i class="fa-solid fa-phone"></i><div><strong>Phone</strong><a data-config="phoneLabel" data-attr="href:tel" href="#"></a></div></div><div class="info-line"><i class="fa-solid fa-envelope"></i><div><strong>Email</strong><a data-config="email" data-attr="href:mailto" href="#"></a></div></div><div class="info-line"><i class="fa-solid fa-location-dot"></i><div><strong>Service area</strong><span data-service-area></span></div></div><div class="info-line"><i class="fa-solid fa-globe"></i><div><strong>Website</strong><a data-config="website" data-attr="href" href="#"></a></div></div></div></div></section>
   <div class="confirmation-modal" data-confirmation-modal aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="confirmation-title">
     <div class="confirmation-dialog">
       <button class="modal-close" type="button" aria-label="Close confirmation" data-modal-close><i class="fa-solid fa-xmark"></i></button>
       <div class="confirmation-icon" aria-hidden="true"><i class="fa-solid fa-check"></i></div>
       <h2 id="confirmation-title">Request received</h2>
-      <p>Your request has been submitted. ArborLine Connect will review the details and route the inquiry toward relevant independent local providers.</p>
+      <p>Your request has been submitted. ${siteConfig.companyName} will review the details and route the inquiry toward relevant independent local providers.</p>
       <button class="btn" type="button" data-modal-close>Close</button>
     </div>
   </div>
@@ -893,17 +896,17 @@ out("contact.html", page({
 for (const s of services) {
   const detail = serviceDetailContent[s.slug];
   out(`services/${s.slug}.html`, page({
-    title: `${s.title} Provider Connections | ArborLine Connect`,
+    title: `${s.title} Provider Connections | ${siteConfig.companyName}`,
     description: `${s.summary} Learn what details to prepare before connecting with an independent local provider.`,
     depth: "../",
     active: "home",
     body: `
 <main>
-  <section class="page-hero" style="--hero:url('../assets/images/${s.image}')"><div class="container reveal"><span class="eyebrow">Provider category</span><h1>${s.title}</h1><p>${s.summary}</p></div></section>
-  <section class="section"><div class="container detail-grid"><article class="detail-content reveal"><span class="kicker">Connection guide</span><h2>What this <span class="accent-text">request category</span> can help organize</h2><p class="lead">${s.intro}</p><p>This page describes the types of requests that may fit this category. ArborLine Connect helps organize and route homeowner information only. Independent providers decide whether they can inspect, quote, schedule, and perform the work.</p><h3>When to request ${s.title.toLowerCase()} help</h3><p>Submit a request when the tree, stump, brush, or debris is limiting safe access, threatening structures, blocking future landscaping, creating cleanup pressure, or making it difficult to decide which provider category applies.</p><h3>Original request details this category captures</h3><ul class="check-list">${s.includes.map(i => `<li>${i}</li>`).join("")}</ul><a class="btn" href="../contact.html">Request Provider Help</a></article><aside class="service-detail-media reveal"><img src="../assets/images/${detail.detailImage}" alt="${detail.imageAlt}" loading="lazy"><div class="service-detail-note"><h3>Aggregator note</h3><p>This site does not perform ${s.title.toLowerCase()} work. It helps homeowners describe the situation and seek follow-up from independent local providers.</p></div></aside></div></section>
+  <section class="page-hero" style="--hero:url('/assets/images/${s.image}')"><div class="container reveal"><span class="eyebrow">Provider category</span><h1>${s.title}</h1><p>${s.summary}</p></div></section>
+  <section class="section"><div class="container detail-grid"><article class="detail-content reveal"><span class="kicker">Connection guide</span><h2>What this <span class="accent-text">request category</span> can help organize</h2><p class="lead">${s.intro}</p><p>This page describes the types of requests that may fit this category. ${siteConfig.companyName} helps organize and route homeowner information only. Independent providers decide whether they can inspect, quote, schedule, and perform the work.</p><h3>When to request ${s.title.toLowerCase()} help</h3><p>Submit a request when the tree, stump, brush, or debris is limiting safe access, threatening structures, blocking future landscaping, creating cleanup pressure, or making it difficult to decide which provider category applies.</p><h3>Original request details this category captures</h3><ul class="check-list">${s.includes.map(i => `<li>${i}</li>`).join("")}</ul><a class="btn" href="../contact.html">Request Provider Help</a></article><aside class="service-detail-media reveal"><img src="../assets/images/${detail.detailImage}" alt="${detail.imageAlt}" loading="lazy"><div class="service-detail-note"><h3>Aggregator note</h3><p>This site does not perform ${s.title.toLowerCase()} work. It helps homeowners describe the situation and seek follow-up from independent local providers.</p></div></aside></div></section>
   <section class="section alt"><div class="container"><div class="section-title reveal"><span class="kicker">Service types</span><h2>Common <span class="accent-text">${s.title.toLowerCase()}</span> request types.</h2><p class="lead">These examples help homeowners choose the best request path before speaking with an independent provider.</p></div><div class="service-type-grid">${detail.serviceTypes.map(([title, text]) => `<article class="service-type-card reveal"><h3>${title}</h3><p>${text}</p></article>`).join("")}</div></div></section>
   <section class="section"><div class="container service-detail-blocks"><article class="service-detail-block reveal"><h3>What may be included</h3><ul class="check-list">${detail.includedWork.map(item => `<li>${item}</li>`).join("")}</ul></article><article class="service-detail-block reveal"><h3>Details to prepare</h3><ul class="check-list">${detail.prepare.map(item => `<li>${item}</li>`).join("")}</ul></article><article class="service-detail-block reveal"><h3>Confirm before hiring</h3><ul class="check-list">${detail.verification.map(item => `<li>${item}</li>`).join("")}</ul></article></div></section>
-  <section class="section service-verify-band"><div class="container split"><div class="reveal"><span class="kicker">Provider verification</span><h2>Use the connection, then verify the provider directly.</h2><p class="lead">ArborLine Connect is not responsible for estimates, safety practices, licensing, insurance, workmanship, cleanup, or final results. Those details belong in the homeowner's direct conversation with the independent provider.</p><ul class="check-list">${s.details.map(d => `<li>${d}</li>`).join("")}</ul></div><aside class="sidebar-card reveal"><h3>Need ${s.title.toLowerCase()}?</h3><p>Connection requests are available for <span data-service-area></span>. Independent providers set their own availability, pricing, license status, insurance coverage, and work terms.</p><a class="nav-phone" data-config="phoneLabel" data-attr="href:tel" href="#"></a><hr><h3>Related categories</h3>${services.filter(x => x.slug !== s.slug).slice(0,4).map(x => `<a href="${x.slug}.html">${x.title}</a>`).join("")}</aside></div></section>
+  <section class="section service-verify-band"><div class="container split"><div class="reveal"><span class="kicker">Provider verification</span><h2>Use the connection, then verify the provider directly.</h2><p class="lead">${siteConfig.companyName} is not responsible for estimates, safety practices, licensing, insurance, workmanship, cleanup, or final results. Those details belong in the homeowner's direct conversation with the independent provider.</p><ul class="check-list">${s.details.map(d => `<li>${d}</li>`).join("")}</ul></div><aside class="sidebar-card reveal"><h3>Need ${s.title.toLowerCase()}?</h3><p>Connection requests are available for <span data-service-area></span>. Independent providers set their own availability, pricing, license status, insurance coverage, and work terms.</p><a class="nav-phone" data-config="phoneLabel" data-attr="href:tel" href="#"></a><hr><h3>Related categories</h3>${services.filter(x => x.slug !== s.slug).slice(0,4).map(x => `<a href="${x.slug}.html">${x.title}</a>`).join("")}</aside></div></section>
 </main>`
   }));
 }
@@ -985,7 +988,7 @@ const legalPages = {
       <p>ArborLine Connect does not collect payment for provider work through this website unless a specific payment feature is clearly presented. Any estimate, deposit, invoice, financing, payment method, refund, cancellation, or dispute about work should be handled directly between the homeowner and the independent provider.</p>
 
       <h2>Photos and media</h2>
-      <p>Photos, videos, icons, illustrations, and people depicted on this website may be illustrative, staged, stock, AI-generated, actors, or models. They should not be interpreted as actual providers listed on the site, proof of completed work, or a representation that a specific provider will perform your project.</p>
+      <p>Photos, videos, icons, illustrations, and people depicted on this website may be illustrative, staged, stock, actors, or models. They should not be interpreted as actual providers listed on the site, proof of completed work, or a representation that a specific provider will perform your project.</p>
 
       <h2>Website content</h2>
       <p>Website content is provided for general informational purposes. It may describe common tree-related requests, preparation steps, and questions homeowners may ask providers. It does not replace an on-site assessment by a qualified professional and should not be relied on as a safety determination.</p>
@@ -1048,20 +1051,8 @@ const numberLegalSections = (content) => {
 
 for (const [file, legalPage] of Object.entries(legalPages)) {
   out(file, page({
-    title: `${legalPage.title} | ArborLine Connect`,
-    description: `${legalPage.title} for ArborLine Connect, a homeowner connection service for independent local tree providers.`,
-    body: `<main><section class="page-hero" style="--hero:url('../assets/images/hero-tree-removal.webp')"><div class="container reveal"><span class="eyebrow">Policy</span><h1>${legalPage.title}</h1><p>${legalPage.intro}</p></div></section><section class="section"><div class="container legal reveal">${numberLegalSections(legalPage.content)}</div></section></main>`
+    title: `${legalPage.title} | ${siteConfig.companyName}`,
+    description: `${legalPage.title} for ${siteConfig.companyName}, a homeowner connection service for independent local tree providers.`,
+    body: `<main><section class="page-hero" style="--hero:url('/assets/images/hero-tree-removal.webp')"><div class="container reveal"><span class="eyebrow">Policy</span><h1>${legalPage.title}</h1><p>${legalPage.intro}</p></div></section><section class="section"><div class="container legal reveal">${numberLegalSections(legalPage.content)}</div></section></main>`
   }));
 }
-
-out("robots.txt", `User-agent: *
-Allow: /
-Sitemap: https://arborlinetreeservices.com/sitemap.xml
-`);
-
-const urls = ["index.html", "about.html", "contact.html", "privacy-policy.html", "terms-and-conditions.html", "cookie-policy.html", ...services.map(s => `services/${s.slug}.html`)];
-out("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map(u => `  <url><loc>https://arborlinetreeservices.com/${u === "index.html" ? "" : u}</loc></url>`).join("\n")}
-</urlset>
-`);
